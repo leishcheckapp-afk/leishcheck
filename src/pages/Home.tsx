@@ -27,7 +27,7 @@ export default function Home() {
   const container = { hidden: {}, show: { transition: { staggerChildren: prefersReduced ? 0 : 0.1 } } };
   const item = {
     hidden: prefersReduced ? {} : { opacity: 0, y: 24, scale: 0.96 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
   };
 
   return (

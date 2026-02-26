@@ -1,4 +1,4 @@
-import Dexie, { type EntityTable } from 'dexie';
+import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import { UserData, QuestionAnswer, RiskResult } from '@/types/leishcheck';
 
 export interface DbSession {
@@ -16,30 +16,54 @@ interface ConsentLog {
   given: boolean;
 }
 
-const db = new Dexie('LeishCheckDB') as Dexie & {
-  sessions: EntityTable<DbSession, 'id'>;
-  consent_log: EntityTable<ConsentLog, 'id'>;
-};
+interface LeishCheckDB extends DBSchema {
+  sessions: {
+    key: number;
+    value: DbSession;
+    indexes: { date: string };
+  };
+  consent_log: {
+    key: number;
+    value: ConsentLog;
+    indexes: { date: string };
+  };
+}
 
-db.version(1).stores({
-  sessions: '++id, date',
-  consent_log: '++id, date',
-});
+let dbPromise: Promise<IDBPDatabase<LeishCheckDB>> | null = null;
+
+function getDb() {
+  if (!dbPromise) {
+    dbPromise = openDB<LeishCheckDB>('LeishCheckDB', 1, {
+      upgrade(db) {
+        const sessionStore = db.createObjectStore('sessions', { keyPath: 'id', autoIncrement: true });
+        sessionStore.createIndex('date', 'date');
+        const consentStore = db.createObjectStore('consent_log', { keyPath: 'id', autoIncrement: true });
+        consentStore.createIndex('date', 'date');
+      },
+    });
+  }
+  return dbPromise;
+}
 
 export async function saveSession(session: Omit<DbSession, 'id'>) {
-  return db.sessions.add(session as DbSession);
+  const db = await getDb();
+  return db.add('sessions', session as DbSession);
 }
 
 export async function getSessions(): Promise<DbSession[]> {
-  return db.sessions.orderBy('date').reverse().toArray();
+  const db = await getDb();
+  const all = await db.getAllFromIndex('sessions', 'date');
+  return all.reverse();
 }
 
 export async function getSessionById(id: number): Promise<DbSession | undefined> {
-  return db.sessions.get(id);
+  const db = await getDb();
+  return db.get('sessions', id);
 }
 
 export async function logConsent(given: boolean) {
-  return db.consent_log.add({ date: new Date().toISOString(), given });
+  const db = await getDb();
+  return db.add('consent_log', { date: new Date().toISOString(), given } as ConsentLog);
 }
 
-export default db;
+export default { getDb };

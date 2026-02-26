@@ -55,7 +55,7 @@ export default function Result() {
   const strokeDashoffset = CIRCUMFERENCE - (result.percentage / 100) * CIRCUMFERENCE;
   const dur = prefersReduced ? 0 : 1.2;
 
-  const stagger = (delay: number) => prefersReduced ? {} : { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] } };
+  const stagger = (delay: number) => prefersReduced ? {} : { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } };
 
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 pt-8 pb-24">
@@ -70,7 +70,7 @@ export default function Result() {
         <motion.div className="relative flex items-center justify-center" {...stagger(0.2)} style={{ filter: `drop-shadow(${colors.glow})` }}>
           <svg width="180" height="180" viewBox="0 0 180 180">
             <circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
-            <motion.circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke={colors.stroke} strokeWidth="8" strokeLinecap="round" strokeDasharray={CIRCUMFERENCE} initial={{ strokeDashoffset: CIRCUMFERENCE }} animate={{ strokeDashoffset }} transition={{ duration: dur, ease: [0.33, 1, 0.68, 1] }} transform="rotate(-90 90 90)" />
+            <motion.circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke={colors.stroke} strokeWidth="8" strokeLinecap="round" strokeDasharray={CIRCUMFERENCE} initial={{ strokeDashoffset: CIRCUMFERENCE }} animate={{ strokeDashoffset }} transition={{ duration: dur, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] }} transform="rotate(-90 90 90)" />
           </svg>
           <div className="absolute flex flex-col items-center">
             <span className={`text-4xl font-bold ${colors.text}`}>{displayPercent}%</span>

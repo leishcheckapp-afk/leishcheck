@@ -10,6 +10,7 @@ import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { VLibrasWidget } from "@/components/VLibrasWidget";
 import { OfflineBanner } from "@/components/OfflineBanner";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
 import Consent from "./pages/Consent";
 import UserDataPage from "./pages/UserDataPage";
@@ -23,23 +24,42 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-function AnimatedRoutes() {
+function AppShell() {
   const location = useLocation();
+  const isLanding = location.pathname === '/';
+
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/consentimento" element={<Consent />} />
-        <Route path="/dados" element={<UserDataPage />} />
-        <Route path="/questionario" element={<Questionnaire />} />
-        <Route path="/imagem" element={<ImageUpload />} />
-        <Route path="/resultado" element={<Result />} />
-        <Route path="/educacao" element={<Education />} />
-        <Route path="/historico" element={<History />} />
-        <Route path="/historico/:id" element={<HistoryDetail />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </AnimatePresence>
+    <>
+      {!isLanding && (
+        <>
+          <OfflineBanner />
+          <DarkModeToggle />
+          <AudioToggle />
+          <LanguageSelector />
+        </>
+      )}
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/app" element={<Home />} />
+          <Route path="/consentimento" element={<Consent />} />
+          <Route path="/dados" element={<UserDataPage />} />
+          <Route path="/questionario" element={<Questionnaire />} />
+          <Route path="/imagem" element={<ImageUpload />} />
+          <Route path="/resultado" element={<Result />} />
+          <Route path="/educacao" element={<Education />} />
+          <Route path="/historico" element={<History />} />
+          <Route path="/historico/:id" element={<HistoryDetail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AnimatePresence>
+      {!isLanding && (
+        <>
+          <VLibrasWidget />
+          <InstallPrompt />
+        </>
+      )}
+    </>
   );
 }
 
@@ -49,13 +69,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <OfflineBanner />
-        <DarkModeToggle />
-        <AudioToggle />
-        <LanguageSelector />
-        <AnimatedRoutes />
-        <VLibrasWidget />
-        <InstallPrompt />
+        <AppShell />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
