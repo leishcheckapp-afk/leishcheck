@@ -96,7 +96,7 @@ export default function LandingPage() {
                 {l.label}
               </button>
             ))}
-            <button onClick={() => navigate('/consentimento')} className={`border px-5 py-2 text-sm font-semibold uppercase tracking-widest transition-all hover:bg-white hover:text-[#1C2B1E] ${scrolled ? 'border-[#F5F2EC]/40 text-[#F5F2EC]' : 'border-white/40 text-white'}`}>
+            <button onClick={() => navigate('/app')} className={`border px-5 py-2 text-sm font-semibold uppercase tracking-widest transition-all hover:bg-white hover:text-[#1C2B1E] ${scrolled ? 'border-[#F5F2EC]/40 text-[#F5F2EC]' : 'border-white/40 text-white'}`}>
               {t('landing.navApp')}
             </button>
           </div>
@@ -116,7 +116,7 @@ export default function LandingPage() {
                   {l.label}
                 </button>
               ))}
-              <button onClick={() => { setMenuOpen(false); navigate('/consentimento'); }} className="mt-2 border border-white/30 px-5 py-2.5 text-sm font-semibold uppercase tracking-widest text-white hover:bg-white hover:text-[#1C2B1E]">
+              <button onClick={() => { setMenuOpen(false); navigate('/app'); }} className="mt-2 border border-white/30 px-5 py-2.5 text-sm font-semibold uppercase tracking-widest text-white hover:bg-white hover:text-[#1C2B1E]">
                 {t('landing.navApp')}
               </button>
             </div>
