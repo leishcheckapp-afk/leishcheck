@@ -24,6 +24,16 @@ export function useInstallApp() {
     };
 
     window.addEventListener('beforeinstallprompt', handler);
+
+    // MOCK FOR DEMONSTRATION/TESTING: 
+    // Browsers are strict about `beforeinstallprompt`. In localhost development,
+    // we force it to show up so the user can test the UI Button.
+    // In production, users will rely on the real `beforeinstallprompt` event.
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocalhost) {
+       setTimeout(() => setIsInstallable(true), 1500);
+    }
+
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
