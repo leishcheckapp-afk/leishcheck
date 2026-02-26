@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoLeishCheck from '@/assets/logo-leishcheck.png';
+import AnimatedPage from '@/components/AnimatedPage';
 
 export default function Home() {
   const { audioEnabled, checkConsentValid } = useLeishCheckStore();
@@ -25,9 +26,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center gap-8 text-center max-w-sm">
-        {/* Logo */}
         <div className="flex h-28 w-28 items-center justify-center rounded-2xl overflow-hidden shadow-lg">
           <img src={logoLeishCheck} alt="Logo LeishCheck" className="h-full w-full object-cover" />
         </div>
@@ -63,6 +63,6 @@ export default function Home() {
           Esta ferramenta não substitui consulta médica presencial.
         </p>
       </div>
-    </div>
+    </AnimatedPage>
   );
 }

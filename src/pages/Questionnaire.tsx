@@ -6,6 +6,8 @@ import { questions } from '@/data/questions';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft } from 'lucide-react';
+import AnimatedPage from '@/components/AnimatedPage';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Questionnaire() {
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ export default function Questionnaire() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-8 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center gap-3">
@@ -59,12 +61,21 @@ export default function Questionnaire() {
         </div>
 
         {/* Question */}
-        <div className="flex flex-col items-center gap-6 rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
-          <span className="text-5xl" role="img" aria-hidden="true">{q.icon}</span>
-          <p className="text-xl font-semibold leading-relaxed text-card-foreground">
-            {q.text}
-          </p>
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentQuestion}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center gap-6 rounded-2xl border border-border bg-card p-8 text-center shadow-sm"
+          >
+            <span className="text-5xl" role="img" aria-hidden="true">{q.icon}</span>
+            <p className="text-xl font-semibold leading-relaxed text-card-foreground">
+              {q.text}
+            </p>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Answer buttons */}
         <div className="flex gap-4">
@@ -89,6 +100,6 @@ export default function Questionnaire() {
           </Button>
         </div>
       </div>
-    </div>
+    </AnimatedPage>
   );
 }
