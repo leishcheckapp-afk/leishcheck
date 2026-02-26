@@ -22,6 +22,9 @@
     "declineMessage": "Without consent, screening cannot proceed. You can return anytime.",
     "backHome": "Back to Home",
     "reconsider": "Reconsider",
+    "alreadyAcceptedTitle": "Terms already accepted",
+    "alreadyAcceptedMessage": "You accepted the consent terms on {{date}}. Your consent is valid for 90 days.",
+    "rereadTerms": "Re-read terms",
     "term": "INFORMED CONSENT FORM\n\nBy continuing, you voluntarily agree to provide personal and health information for exclusive use in this Cutaneous Leishmaniasis risk screening tool.\n\nDATA USED INCLUDES:\n• Age, gender and approximate geographic location;\n• Responses to the signs and symptoms questionnaire;\n• Optional images of skin lesions (captured by the device camera).\n\nPURPOSE:\nThis data will be used exclusively to calculate a risk estimate for Cutaneous Leishmaniasis and provide preliminary health guidance. This tool does NOT provide medical diagnosis.\n\nPRIVACY AND SECURITY:\n• Data is stored ONLY locally on your device (IndexedDB/localStorage).\n• No personal data is sent to external servers.\n• Captured images remain exclusively on your device.\n• No data is shared with third parties.\n\nYOUR RIGHTS (per Brazil's LGPD — Law 13.709/2018):\n• You may revoke this consent at any time in the app settings.\n• You may request deletion of your data by clearing the app data.\n• You have the right to access, correct and delete your personal data.\n\nDECLARATION:\nI declare that I have read and understood the above information, and that I voluntarily agree to participate in the screening, aware that I may withdraw at any time without prejudice.\n\nIMPORTANT:\n• This application is an auxiliary screening tool and does NOT replace in-person medical consultation.\n• If you suspect leishmaniasis, immediately seek a Basic Health Unit (UBS).\n• Treatment for leishmaniasis is free through Brazil's Unified Health System (SUS)."
   },
   "userData": {

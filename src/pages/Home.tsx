@@ -21,8 +21,7 @@ export default function Home() {
   }, [audioEnabled, t]);
 
   const handleStart = () => {
-    if (checkConsentValid()) navigate('/dados');
-    else navigate('/consentimento');
+    navigate('/consentimento');
   };
 
   const container = { hidden: {}, show: { transition: { staggerChildren: prefersReduced ? 0 : 0.1 } } };

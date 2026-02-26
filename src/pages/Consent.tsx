@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
-import { Shield, ChevronDown, HeartHandshake } from 'lucide-react';
+import { Shield, ChevronDown, HeartHandshake, CheckCircle2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import AnimatedPage from '@/components/AnimatedPage';
@@ -13,10 +13,13 @@ export default function Consent() {
   const [scrolledToEnd, setScrolledToEnd] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [showDeclineMessage, setShowDeclineMessage] = useState(false);
+  const [showFullTerm, setShowFullTerm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { setConsent, audioEnabled } = useLeishCheckStore();
+  const { setConsent, audioEnabled, checkConsentValid, consentDate } = useLeishCheckStore();
   const { t } = useTranslation();
+
+  const alreadyAccepted = checkConsentValid();
 
   useEffect(() => { if (audioEnabled) speakText(t('audio.consent')); }, [audioEnabled, t]);
 
@@ -25,6 +28,46 @@ export default function Consent() {
     if (!el) return;
     if (el.scrollHeight - el.scrollTop - el.clientHeight < 30) setScrolledToEnd(true);
   }, []);
+
+  // Already accepted state
+  if (alreadyAccepted && !showFullTerm) {
+    const acceptedDate = consentDate ? new Date(consentDate).toLocaleDateString() : '';
+    return (
+      <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
+        <div className="w-full max-w-md flex flex-col gap-6">
+          <PageHeader title={t('consent.title')} icon={Shield} backTo="/" />
+          <div className="glass-card flex flex-col items-center gap-5 p-8 text-center">
+            <div className="icon-circle h-20 w-20">
+              <CheckCircle2 className="h-10 w-10 text-primary" />
+            </div>
+            <h2 className="text-xl font-bold text-foreground">{t('consent.alreadyAcceptedTitle')}</h2>
+            <p className="text-sm text-muted-foreground">
+              {t('consent.alreadyAcceptedMessage', { date: acceptedDate })}
+            </p>
+            <div className="flex w-full flex-col gap-3">
+              <button
+                onClick={() => { setConsent(true); navigate('/dados'); }}
+                className="gradient-btn h-14 w-full rounded-2xl text-lg font-semibold"
+              >
+                {t('nav.continue')}
+              </button>
+              <Button
+                onClick={() => setShowFullTerm(true)}
+                variant="ghost"
+                className="h-12 w-full rounded-2xl text-muted-foreground"
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                {t('consent.rereadTerms')}
+              </Button>
+            </div>
+          </div>
+          <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+            <Shield className="h-4 w-4" /><p>{t('app.disclaimer')}</p>
+          </div>
+        </div>
+      </AnimatedPage>
+    );
+  }
 
   if (showDeclineMessage) {
     return (

@@ -9,6 +9,13 @@ import { motion } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTranslation } from 'react-i18next';
 
+import eduSandfly from '@/assets/edu-sandfly.jpg';
+import eduPhase1 from '@/assets/edu-phase1.jpg';
+import eduPhase2 from '@/assets/edu-phase2.jpg';
+import eduPhase3 from '@/assets/edu-phase3.jpg';
+
+const phaseImages = [eduPhase1, eduPhase2, eduPhase3];
+
 export default function Education() {
   const navigate = useNavigate();
   const { audioEnabled } = useLeishCheckStore();
@@ -42,6 +49,14 @@ export default function Education() {
             <div className="flex items-center gap-3"><div className="icon-circle h-10 w-10"><Bug className="h-5 w-5 text-primary" /></div><h2 className="text-lg font-bold text-foreground">{t('education.mosquitoTitle')}</h2></div>
             {audioEnabled && <button onClick={() => speakSection(`${t('education.mosquitoTitle')}. ${t('education.mosquitoText')}. ${t('education.preventionText')}`)} className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 hover-lift"><Volume2 className="h-5 w-5 text-primary" /></button>}
           </div>
+          <div className="mt-4 overflow-hidden rounded-xl">
+            <img
+              src={eduSandfly}
+              alt={t('education.mosquitoTitle')}
+              className="w-full h-auto object-cover rounded-xl"
+              loading="lazy"
+            />
+          </div>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t('education.mosquitoText')}</p>
           <div className="mt-4 flex items-start gap-3 rounded-xl bg-primary/5 p-4">
             <Shield className="h-5 w-5 text-primary shrink-0 mt-0.5" />
@@ -59,6 +74,14 @@ export default function Education() {
                 <h3 className="text-base font-semibold text-foreground">{t(`education.${phase.key}`)}</h3>
               </div>
               {audioEnabled && <button onClick={() => speakSection(`${t(`education.${phase.key}`)}. ${t(`education.${phase.key}Desc`)}`)} className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 hover-lift"><Volume2 className="h-5 w-5 text-primary" /></button>}
+            </div>
+            <div className="mt-4 overflow-hidden rounded-xl">
+              <img
+                src={phaseImages[i]}
+                alt={t(`education.${phase.key}`)}
+                className="w-full h-auto object-cover rounded-xl"
+                loading="lazy"
+              />
             </div>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t(`education.${phase.key}Desc`)}</p>
           </motion.div>
