@@ -42,31 +42,48 @@ export function useInstallApp() {
     };
 
     window.addEventListener('beforeinstallprompt', handler);
+
+    // MOCK FOR DEMONSTRATION/TESTING: 
+    // In localhost development, we force the UI so the developer can see the exact layout.
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocalhost) {
+       setTimeout(() => {
+         setIsInstallable(true);
+         // Create a dummy prompt object just to show the green "Instalar Agora" button on localhost
+         if (!deferredPrompt && os !== 'ios') {
+           setDeferredPrompt({
+             prompt: async () => { console.log("Mock prompt triggered"); },
+             userChoice: Promise.resolve({ outcome: 'accepted' })
+           } as BeforeInstallPromptEvent);
+         }
+       }, 1500);
+    }
+
     return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
+  }, [os, deferredPrompt]);
 
   const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      // Trigger native install directly
+    // If we have a prompt AND we are not on iOS, try native first
+    if (deferredPrompt && os !== 'ios') {
       await triggerNativeInstall();
     } else {
-      // Show modal for fallback/iOS 
       setShowModal(true);
     }
   };
 
   const triggerNativeInstall = async () => {
-    if (!deferredPrompt) {
-        // If they click install but browser blocked the prompt, keep the modal open 
-        // to show the manual "Add to Home Screen" instructions.
-        return;
-    }
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setIsInstallable(false);
-      setShowModal(false);
-      setDeferredPrompt(null);
+    if (!deferredPrompt) return;
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setIsInstallable(false);
+        setShowModal(false);
+        setDeferredPrompt(null);
+      }
+    } catch (e) {
+      console.error("Install prompt error", e);
+      setShowModal(true);
     }
   };
 
@@ -94,25 +111,21 @@ export function InstallAppModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
             onClick={onClose}
-            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed top-1/2 left-1/2 z-[101] w-[calc(100%-2rem)] max-w-md rounded-3xl border border-border/50 p-6 shadow-2xl"
-            style={{
-              background: 'hsl(var(--card))',
-              x: '-50%',
-              y: '-50%',
-            }}
           >
-            <button
-              onClick={onClose}
-              className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-3xl border border-border/50 bg-[#F5F2EC] p-6 shadow-2xl dark:bg-[#1C2B1E]"
             >
+              <button
+                onClick={onClose}
+                className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
               <X className="h-5 w-5" />
             </button>
 
@@ -127,13 +140,13 @@ export function InstallAppModal({
             </div>
 
             <div className="space-y-4">
-              {/* Native Install Fallback Message (Rare) */}
-              {hasNativePrompt && (
-                <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 text-center">
+              {/* Native Install Fallback Message */}
+              {hasNativePrompt && os !== 'ios' && (
+                <div className="rounded-2xl border border-primary/20 bg-[#A5D6A7]/20 p-4 text-center">
                   <p className="mb-4 text-sm font-medium text-foreground">
-                    Instale diretamente pelo navegador.
+                    Clique no botão abaixo para instalar o aplicativo no seu dispositivo:
                   </p>
-                  <Button onClick={onNativeInstall} className="w-full gap-2">
+                  <Button onClick={onNativeInstall} className="w-full gap-2 bg-[#A5D6A7] text-[#1C2B1E] hover:bg-[#A5D6A7]/80">
                     <Download className="h-4 w-4" /> Instalar Agora
                   </Button>
                 </div>
@@ -207,6 +220,7 @@ export function InstallAppModal({
                     Entendi
                 </Button>
             </div>
+            </motion.div>
           </motion.div>
         </>
       )}
