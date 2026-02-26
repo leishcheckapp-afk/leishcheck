@@ -1,70 +1,99 @@
 
 
-# Redesign de Headers + Dark Mode Global + Visual de Impacto
+# Redesign Premium do PDF + Polish Visual de Todas as Telas
 
-## Problemas Identificados
+## Visao Geral
 
-1. **Dark mode toggle** existe apenas na Home (`src/pages/Home.tsx` linha 37). Ao navegar para qualquer outra tela, o botão desaparece.
-2. **Headers com botão voltar** usam o padrão genérico `flex items-center gap-3` + círculo cinza + título simples — visual sem personalidade.
-3. **AudioToggle** e **LanguageSelector** já são globais (renderizados em `App.tsx`), mas o dark mode toggle não.
+O PDF atual e basico demais: texto simples sem hierarquia visual, sem cores de fundo, sem badges, sem separadores elegantes. As telas do app ja tem um visual bom com glass-cards e gradients, mas podem ser elevadas com micro-interacoes e detalhes visuais que causam o efeito "UAU".
 
-## Solução
+## 1. PDF Premium — Redesign Completo
 
-### 1. Dark Mode Toggle Global
-- Extrair o toggle de dark mode de `Home.tsx` e criar um componente `DarkModeToggle.tsx`
-- Renderizá-lo em `App.tsx` junto com AudioToggle e LanguageSelector
-- Posicioná-lo como botão flutuante fixo (top-left, ao lado do LanguageSelector)
-- Remover o toggle duplicado de `Home.tsx`
-- Reposicionar os 3 botões flutuantes: Dark mode (top-left pos 1), Language (top-left pos 2), Audio (top-right)
-
-### 2. Redesign dos Headers — Visual "UAU"
-Substituir o padrão atual por um header mais sofisticado em todas as páginas:
-- Botão voltar com glass-card style (backdrop-blur) em vez de `bg-muted/80`
-- Título centralizado com subtítulo descritivo em texto menor
-- Linha decorativa gradiente abaixo do título
-- Ícone temático da página ao lado do título (não mais separado)
-
-Páginas afetadas:
-- `Consent.tsx` — header com ícone Shield integrado
-- `UserDataPage.tsx` — header com ícone User integrado  
-- `Questionnaire.tsx` — header com progress integrado elegantemente
-- `ImageUpload.tsx` — header com ícone Camera
-- `Result.tsx` — sem back button (é tela final), mas título estilizado
-- `History.tsx` — header com ícone History
-- `HistoryDetail.tsx` — header com badge de risco
-- `Education.tsx` — header com ícone BookOpen
-
-### 3. Padrão Visual dos Novos Headers
+O `generatePDF.ts` sera reescrito com um layout profissional de relatorio medico:
 
 ```text
-┌─────────────────────────────────┐
-│  [←]     Título da Página       │
-│          Subtítulo descritivo    │
-│  ═══════════════════════════    │ ← linha gradiente decorativa
-└─────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│  ████████████████████████████████████████│  ← Header band verde (retangulo colorido)
+│                                         │
+│        LEISHCHECK                       │
+│        Relatorio de Triagem             │
+│        Data: 26/02/2026 14:30           │
+│                                         │
+│  ─────────────────────────────────────  │
+│                                         │
+│     ┌─────────────────────────────┐     │
+│     │   ██ 45% — Risco Medio     │     │  ← Badge colorido com fundo
+│     │   Orientacao resumida...    │     │
+│     └─────────────────────────────┘     │
+│                                         │
+│  ▐ DADOS DO PACIENTE                    │  ← Barra lateral colorida + titulo bold
+│  │ Idade: 32  |  Genero: Masculino      │
+│  │ Local: Belem - PA                    │
+│                                         │
+│  ▐ RESPOSTAS DO QUESTIONARIO            │
+│  │ 1. Mora em area rural?     [✓ Sim]   │  ← Linhas zebradas alternadas
+│  │ 2. Viajou para locais...   [✗ Nao]   │
+│  │ ...                                  │
+│                                         │
+│  ─────────────────────────────────────  │
+│  ⚠ AVISO LEGAL                          │
+│  Este relatorio nao constitui...        │
+│                                         │
+│  ████████████████████████████████████████│  ← Footer band
+│        leishcheck.app                   │
+└─────────────────────────────────────────┘
 ```
 
-- Botão voltar: glass-card com border sutil, ícone com cor primary
-- Título: `text-2xl font-bold text-gradient`  
-- Subtítulo: `text-sm text-muted-foreground`
-- Linha decorativa: `h-0.5 w-16 bg-gradient-to-r from-primary to-primary-light rounded-full`
+Tecnicas usadas (todas suportadas pelo jsPDF sem dependencias extras):
+- **Retangulos coloridos** (`doc.setFillColor` + `doc.rect`) para header/footer bands
+- **Retangulo de resultado** com fundo colorido (verde/amarelo/vermelho) com opacidade
+- **Barra lateral** nos titulos de secao (retangulo fino colorido a esquerda)
+- **Linhas zebradas** nas respostas do questionario (retangulos cinza alternados)
+- **Tipografia hierarquica** — titulo 22pt, secoes 14pt bold, corpo 10pt
+- **Rodape** com numero de pagina e URL do app
+- **Margem lateral** elegante com linha vertical decorativa
 
-### 4. Detalhes Técnicos
+## 2. Polish Visual das Telas — Detalhes "UAU"
 
-**Arquivos novos (1):**
-- `src/components/DarkModeToggle.tsx` — componente do toggle de tema
+### Home (`Home.tsx`)
+- Adicionar um subtle shimmer/glow pulsante no logo (CSS keyframe `glow-pulse`)
+- Badge de versao com borda gradiente sutil
 
-**Arquivos editados (10):**
-- `src/App.tsx` — adicionar DarkModeToggle global, reposicionar botões flutuantes
-- `src/components/LanguageSelector.tsx` — ajustar posição (`left-[7.5rem]` para dar espaço ao dark mode)
-- `src/pages/Home.tsx` — remover toggle de dark mode local, manter visual existente
-- `src/pages/Consent.tsx` — novo header elegante
-- `src/pages/UserDataPage.tsx` — novo header elegante
-- `src/pages/Questionnaire.tsx` — header redesenhado com progress bar integrada
-- `src/pages/ImageUpload.tsx` — novo header elegante
-- `src/pages/History.tsx` — novo header elegante
-- `src/pages/HistoryDetail.tsx` — novo header com badge de risco integrado
-- `src/pages/Education.tsx` — novo header elegante
+### Consent (`Consent.tsx`)
+- Step indicator (1/4) no topo como na UserDataPage — consistencia visual
 
-**Nenhuma dependência nova.** Usando os mesmos utilitários CSS existentes (glass-card, text-gradient, hover-lift).
+### UserDataPage (`UserDataPage.tsx`)
+- Step indicator ja existe, mas os steps futuros devem ter um estilo mais elegante (outline em vez de solid cinza)
+
+### Questionnaire (`Questionnaire.tsx`)
+- Card da pergunta com sombra mais pronunciada e borda gradiente sutil
+
+### Result (`Result.tsx`)
+- Adicionar um confetti/particles sutil no resultado de baixo risco
+- Glow mais intenso no circulo SVG
+
+### HistoryDetail (`HistoryDetail.tsx`)
+- Sem mudancas — ja usa PageHeader elegante
+
+### Education (`Education.tsx`)
+- Sem mudancas significativas — ja tem bom visual
+
+## 3. Detalhes Tecnicos
+
+**Arquivo principal editado:**
+- `src/lib/generatePDF.ts` — reescrita completa com layout premium
+
+**Arquivos com polish sutil:**
+- `src/index.css` — adicionar keyframe `glow-pulse` para o logo da Home
+- `src/pages/Home.tsx` — classe `animate-glow-pulse` no logo
+- `src/pages/Consent.tsx` — adicionar step indicator consistente com UserDataPage
+
+**Nenhuma dependencia nova.** Tudo feito com jsPDF nativo (rect, setFillColor, setTextColor, line).
+
+## 4. Cores do PDF por Nivel de Risco
+
+| Nivel | Header Band | Badge BG | Badge Text |
+|-------|-------------|----------|------------|
+| low | RGB(46,125,50) | RGB(232,245,233) | RGB(27,94,32) |
+| medium | RGB(245,166,35) | RGB(255,248,225) | RGB(230,81,0) |
+| high | RGB(211,47,47) | RGB(255,235,238) | RGB(183,28,28) |
 
