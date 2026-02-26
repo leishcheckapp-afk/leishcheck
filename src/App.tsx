@@ -9,6 +9,7 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { VLibrasWidget } from "@/components/VLibrasWidget";
 import { OfflineBanner } from "@/components/OfflineBanner";
+import { InstallPrompt } from "@/components/InstallPrompt";
 import Home from "./pages/Home";
 import Consent from "./pages/Consent";
 import UserDataPage from "./pages/UserDataPage";
@@ -54,6 +55,7 @@ const App = () => (
         <LanguageSelector />
         <AnimatedRoutes />
         <VLibrasWidget />
+        <InstallPrompt />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

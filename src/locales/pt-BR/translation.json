@@ -121,6 +121,12 @@
     "en": "English (United States)",
     "es": "Español (América Latina)"
   },
+  "install": {
+    "title": "Instale o LeishCheck",
+    "description": "Acesse rapidamente pela tela inicial do seu celular",
+    "button": "Instalar",
+    "dismiss": "Agora não"
+  },
   "audio": {
     "home": "Bem-vindo ao LeishCheck. Cuide da sua saúde. Simples, rápido e gratuito. Toque em Iniciar Triagem para começar.",
     "consent": "Sua privacidade é importante. Por favor, leia o termo de consentimento abaixo e role até o final para continuar.",

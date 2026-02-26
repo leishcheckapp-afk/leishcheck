@@ -121,6 +121,12 @@
     "en": "English (United States)",
     "es": "Español (América Latina)"
   },
+  "install": {
+    "title": "Install LeishCheck",
+    "description": "Quick access from your phone's home screen",
+    "button": "Install",
+    "dismiss": "Not now"
+  },
   "audio": {
     "home": "Welcome to LeishCheck. Take care of your health. Simple, fast and free. Tap Start Screening to begin.",
     "consent": "Your privacy matters. Please read the consent form below and scroll to the end to continue.",
