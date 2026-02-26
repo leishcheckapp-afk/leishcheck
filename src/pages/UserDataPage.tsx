@@ -31,15 +31,7 @@ export default function UserDataPage() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex items-center justify-center gap-2">
-          {[1,2,3,4].map((step) => (
-            <div key={step} className="flex items-center gap-2">
-              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${step === 1 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>{step}</div>
-              {step < 4 && <div className="h-0.5 w-6 bg-border rounded-full" />}
-            </div>
-          ))}
-        </div>
-        <PageHeader title={t('userData.title')} subtitle={t('userData.optional')} icon={User} />
+        <PageHeader title={t('userData.title')} subtitle={t('userData.optional')} icon={User} backTo="/consentimento" />
         <div className="glass-card p-6 flex flex-col gap-5">
           <div className="space-y-2">
             <Label htmlFor="age" className="text-base font-medium flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" /> {t('userData.age')}</Label>

@@ -46,42 +46,48 @@ export default function Result() {
   if (!result) { navigate('/'); return null; }
 
   const colorMap = {
-    low: { stroke: 'hsl(152 56% 34%)', text: 'text-success', glow: '0 0 40px hsl(152 56% 34% / 0.5), 0 0 80px hsl(152 56% 34% / 0.2)' },
-    medium: { stroke: 'hsl(42 96% 56%)', text: 'text-warning', glow: '0 0 40px hsl(42 96% 56% / 0.5), 0 0 80px hsl(42 96% 56% / 0.2)' },
-    high: { stroke: 'hsl(0 72% 50%)', text: 'text-danger', glow: '0 0 40px hsl(0 72% 50% / 0.5), 0 0 80px hsl(0 72% 50% / 0.2)' },
+    low: { stroke: 'hsl(152 56% 34%)', text: 'text-success', glow: '0 0 30px hsl(152 56% 34% / 0.35)' },
+    medium: { stroke: 'hsl(42 96% 56%)', text: 'text-warning', glow: '0 0 30px hsl(42 96% 56% / 0.35)' },
+    high: { stroke: 'hsl(0 72% 50%)', text: 'text-danger', glow: '0 0 30px hsl(0 72% 50% / 0.35)' },
   };
   const colors = colorMap[result.level];
   const strokeDashoffset = CIRCUMFERENCE - (result.percentage / 100) * CIRCUMFERENCE;
   const dur = prefersReduced ? 0 : 1.2;
 
+  const stagger = (delay: number) => prefersReduced ? {} : { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] } };
+
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 pt-8 pb-24">
       <div className="w-full max-w-md flex flex-col items-center gap-6">
         {result.level === 'high' && (
-          <motion.div className="w-full glass-card border-2 border-danger/50 p-5 text-center animate-pulse-ring" initial={prefersReduced ? false : { opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+          <motion.div className="w-full glass-card border-2 border-danger/50 p-5 text-center animate-pulse-ring" {...stagger(0)}>
             <div className="flex items-center justify-center gap-2 mb-2"><AlertTriangle className="h-6 w-6 text-danger" /><span className="text-lg font-bold text-danger">{t('result.attention')}</span></div>
             <p className="text-sm font-medium leading-relaxed text-danger">{t('result.emergencyMessage')}</p>
           </motion.div>
         )}
-        <div className="relative flex items-center justify-center" style={{ filter: `drop-shadow(${colors.glow})` }}>
+
+        <motion.div className="relative flex items-center justify-center" {...stagger(0.2)} style={{ filter: `drop-shadow(${colors.glow})` }}>
           <svg width="180" height="180" viewBox="0 0 180 180">
-            <circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke="hsl(var(--muted))" strokeWidth="10" />
-            <motion.circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke={colors.stroke} strokeWidth="10" strokeLinecap="round" strokeDasharray={CIRCUMFERENCE} initial={{ strokeDashoffset: CIRCUMFERENCE }} animate={{ strokeDashoffset }} transition={{ duration: dur, ease: [0.33, 1, 0.68, 1] }} transform="rotate(-90 90 90)" />
+            <circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
+            <motion.circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke={colors.stroke} strokeWidth="8" strokeLinecap="round" strokeDasharray={CIRCUMFERENCE} initial={{ strokeDashoffset: CIRCUMFERENCE }} animate={{ strokeDashoffset }} transition={{ duration: dur, ease: [0.33, 1, 0.68, 1] }} transform="rotate(-90 90 90)" />
           </svg>
           <div className="absolute flex flex-col items-center">
             <span className={`text-4xl font-bold ${colors.text}`}>{displayPercent}%</span>
             <span className="text-xs text-muted-foreground">{t('result.riskLabel')}</span>
           </div>
-        </div>
-        <motion.h1 className={`text-2xl font-bold ${colors.text}`} initial={prefersReduced ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: prefersReduced ? 0 : 0.8 }}>
+        </motion.div>
+
+        <motion.h1 className={`text-2xl font-bold ${colors.text}`} {...stagger(0.4)}>
           {t(`result.${result.level}`)}
         </motion.h1>
-        <motion.div className="glass-card p-6 text-center w-full" initial={prefersReduced ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: prefersReduced ? 0 : 1.0 }}>
+
+        <motion.div className="glass-card p-6 text-center w-full" {...stagger(0.6)}>
           <p className="text-base leading-relaxed text-card-foreground">{t(`result.${result.level}Desc`)}</p>
-          <hr className="my-4 border-border/50" />
+          <hr className="my-4 border-border/30" />
           <p className="text-sm leading-relaxed text-muted-foreground">{t(`result.${result.level}Orientation`)}</p>
         </motion.div>
-        <motion.div className="flex w-full flex-col gap-3" initial={prefersReduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: prefersReduced ? 0 : 1.2 }}>
+
+        <motion.div className="flex w-full flex-col gap-3" {...stagger(0.8)}>
           <button onClick={() => {
             if (!navigator.onLine) {
               toast.warning('Sem conexão. Quando voltar online, busque "UBS perto de mim" no Google Maps.');
@@ -93,7 +99,8 @@ export default function Result() {
           <Button onClick={() => { import('@/lib/generatePDF').then(({ generateResultPDF }) => { generateResultPDF(result, answers, userData); }); }} variant="outline" className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"><FileDown className="mr-2 h-5 w-5" /> {t('result.downloadPDF')}</Button>
           <Button onClick={() => { resetTriagem(); navigate('/'); }} variant="ghost" className="h-12 w-full rounded-2xl text-muted-foreground"><RotateCcw className="mr-2 h-4 w-4" /> {t('result.retry')}</Button>
         </motion.div>
-        <motion.div className="glass-card flex items-center gap-3 p-4 w-full" initial={prefersReduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: prefersReduced ? 0 : 1.4 }}>
+
+        <motion.div className="glass-card flex items-center gap-3 p-4 w-full" {...stagger(1.0)}>
           <ShieldCheck className="h-5 w-5 text-warning shrink-0" />
           <p className="text-sm font-medium text-muted-foreground">{t('result.disclaimerResult')}</p>
         </motion.div>

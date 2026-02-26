@@ -45,14 +45,7 @@ export default function Consent() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        {/* Step indicator */}
-        <div className="flex items-center justify-center gap-2 mb-2">
-          {[1, 2, 3, 4].map((step) => (
-            <div key={step} className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${step === 1 ? 'bg-primary text-primary-foreground shadow-md' : 'border-2 border-border text-muted-foreground'}`}>
-              {step}
-            </div>
-          ))}
-        </div>
+        
         <PageHeader title={t('consent.title')} subtitle={t('consent.subtitle') !== 'consent.subtitle' ? t('consent.subtitle') : undefined} icon={Shield} backTo="/" />
         <div ref={scrollRef} onScroll={handleScroll} className="glass-card h-64 overflow-y-auto p-5 text-sm leading-relaxed text-card-foreground">
           <pre className="whitespace-pre-wrap font-sans">{t('consent.term')}</pre>

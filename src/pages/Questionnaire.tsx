@@ -38,7 +38,7 @@ export default function Questionnaire() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        {/* Header with glass back button + progress */}
+        {/* Header */}
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-4">
             <button onClick={handleBack} className="glass-card flex h-11 w-11 shrink-0 items-center justify-center rounded-xl hover-lift" aria-label={t('nav.back')}>
@@ -58,22 +58,47 @@ export default function Questionnaire() {
           </div>
           <div className="h-0.5 w-16 rounded-full bg-gradient-to-r from-primary to-primary-light" />
           {/* Progress bar */}
-          <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-muted">
-            <motion.div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, hsl(152 56% 34%), hsl(152 38% 50%))' }} initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.4, ease: 'easeOut' }} />
+          <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ background: 'linear-gradient(90deg, hsl(152 56% 34%), hsl(152 38% 50%))' }}
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            />
           </div>
         </div>
 
         <AnimatePresence mode="wait">
-          <motion.div key={currentQuestion} initial={prefersReduced ? false : { opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={prefersReduced ? undefined : { opacity: 0, x: -30 }} transition={{ duration: dur }} className="glass-card flex flex-col items-center gap-6 p-8 text-center border border-primary/20 shadow-xl" style={{ boxShadow: '0 12px 40px -8px hsl(152 56% 34% / 0.15)' }}>
+          <motion.div
+            key={currentQuestion}
+            initial={prefersReduced ? false : { opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={prefersReduced ? undefined : { opacity: 0, x: -30 }}
+            transition={{ duration: dur }}
+            className="glass-card flex flex-col items-center gap-6 p-8 text-center"
+            style={{ boxShadow: '0 16px 48px -12px hsl(152 56% 34% / 0.12)' }}
+          >
             <div className="icon-circle h-16 w-16"><span className="text-3xl" role="img" aria-hidden="true">{q.icon}</span></div>
             <p className="text-xl font-semibold leading-relaxed text-card-foreground">{questionText}</p>
           </motion.div>
         </AnimatePresence>
+
         <div className="flex gap-4">
-          <motion.button onClick={() => handleAnswer(true)} className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-colors ${currentAnswer?.answer === true ? 'bg-success text-success-foreground ring-4 ring-success/30' : 'glass-card text-success hover:bg-success/10'}`} whileTap={prefersReduced ? {} : { scale: 0.92 }} transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
+          <motion.button
+            onClick={() => handleAnswer(true)}
+            className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all ${currentAnswer?.answer === true ? 'bg-success text-success-foreground ring-4 ring-success/30 shadow-lg' : 'glass-card text-success hover:bg-success/10'}`}
+            whileTap={prefersReduced ? {} : { scale: 0.92 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+          >
             <Check className="h-6 w-6" /> {t('questionnaire.yes')}
           </motion.button>
-          <motion.button onClick={() => handleAnswer(false)} className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-colors ${currentAnswer?.answer === false ? 'bg-danger text-danger-foreground ring-4 ring-danger/30' : 'glass-card text-danger hover:bg-danger/10'}`} whileTap={prefersReduced ? {} : { scale: 0.92 }} transition={{ type: 'spring', stiffness: 400, damping: 17 }}>
+          <motion.button
+            onClick={() => handleAnswer(false)}
+            className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all ${currentAnswer?.answer === false ? 'bg-danger text-danger-foreground ring-4 ring-danger/30 shadow-lg' : 'glass-card text-danger hover:bg-danger/10'}`}
+            whileTap={prefersReduced ? {} : { scale: 0.92 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+          >
             <X className="h-6 w-6" /> {t('questionnaire.no')}
           </motion.button>
         </div>

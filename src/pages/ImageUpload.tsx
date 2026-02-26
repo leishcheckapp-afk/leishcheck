@@ -29,7 +29,7 @@ export default function ImageUpload() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <PageHeader title={t('imageUpload.title')} subtitle={t('imageUpload.description')} icon={Camera} />
+        <PageHeader title={t('imageUpload.title')} subtitle={t('imageUpload.description')} icon={Camera} backTo="/questionario" />
         {preview ? (
           <div className="flex flex-col gap-4">
             <div className="relative overflow-hidden rounded-2xl glow-green"><img src={preview} alt="Lesion photo" className="w-full object-cover" style={{ maxHeight: 300 }} /></div>
