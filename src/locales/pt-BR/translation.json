@@ -1,0 +1,130 @@
+{
+  "app": {
+    "name": "LeishCheck",
+    "tagline": "Cuide da sua saúde.\nSimples, rápido e gratuito.",
+    "version": "v1.0",
+    "disclaimer": "Esta ferramenta não substitui consulta médica presencial."
+  },
+  "nav": {
+    "start": "Iniciar Triagem",
+    "education": "Material Educativo",
+    "history": "Histórico",
+    "back": "Voltar",
+    "continue": "Continuar"
+  },
+  "consent": {
+    "title": "Sua privacidade é importante",
+    "scrollHint": "Role até o final para continuar",
+    "checkbox": "Li e concordo com o termo de consentimento",
+    "accept": "Aceitar e Continuar",
+    "decline": "Não aceito",
+    "declineTitle": "Entendemos sua decisão",
+    "declineMessage": "Sem o consentimento, não é possível realizar a triagem. Você pode voltar quando quiser.",
+    "backHome": "Voltar ao Início",
+    "reconsider": "Reconsiderar",
+    "term": "TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO\n\nAo continuar, você concorda voluntariamente em fornecer informações pessoais e de saúde para uso exclusivo nesta ferramenta de triagem de risco para Leishmaniose Tegumentar.\n\nOS DADOS UTILIZADOS INCLUEM:\n• Idade, gênero e localização geográfica aproximada;\n• Respostas ao questionário de sinais e sintomas;\n• Imagens opcionais de lesões cutâneas (capturadas pela câmera do dispositivo).\n\nFINALIDADE:\nEsses dados serão utilizados exclusivamente para calcular uma estimativa de risco de Leishmaniose Tegumentar e fornecer orientações preliminares de saúde. Esta ferramenta NÃO realiza diagnóstico médico.\n\nPRIVACIDADE E SEGURANÇA:\n• Os dados são armazenados APENAS localmente no seu dispositivo (IndexedDB/localStorage).\n• Nenhum dado pessoal é enviado para servidores externos.\n• As imagens capturadas permanecem exclusivamente no seu aparelho.\n• Nenhum dado é compartilhado com terceiros.\n\nSEUS DIREITOS (conforme a LGPD — Lei 13.709/2018):\n• Você pode revogar este consentimento a qualquer momento nas configurações do aplicativo.\n• Você pode solicitar a exclusão dos seus dados limpando os dados do aplicativo.\n• Você tem direito ao acesso, correção e eliminação dos seus dados pessoais.\n\nDECLARAÇÃO:\nDeclaro que li e compreendi as informações acima, e que aceito voluntariamente participar da triagem, ciente de que posso desistir a qualquer momento sem qualquer prejuízo.\n\nIMPORTANTE:\n• Este aplicativo é uma ferramenta auxiliar de triagem e NÃO substitui consulta médica presencial.\n• Em caso de suspeita de leishmaniose, procure imediatamente uma Unidade Básica de Saúde (UBS).\n• O tratamento para leishmaniose é gratuito pelo Sistema Único de Saúde (SUS)."
+  },
+  "userData": {
+    "title": "Dados Básicos",
+    "optional": "Todos os campos são opcionais",
+    "age": "Idade",
+    "agePlaceholder": "Ex: 35",
+    "gender": "Gênero",
+    "genderPlaceholder": "Selecione",
+    "genderMale": "Masculino",
+    "genderFemale": "Feminino",
+    "genderOther": "Outro",
+    "genderPreferNot": "Prefiro não dizer",
+    "city": "Cidade",
+    "cityPlaceholder": "Ex: Manaus",
+    "state": "Estado",
+    "statePlaceholder": "Selecione o estado"
+  },
+  "questionnaire": {
+    "questionOf": "perguntas",
+    "q1": "Você mora em área rural ou de mata?",
+    "q2": "Já viajou para locais com casos de leishmaniose?",
+    "q3": "Possui lesão na pele que não cicatriza?",
+    "q4": "A lesão está crescendo com o tempo?",
+    "q5": "A lesão não dói e tem aspecto ulcerado?",
+    "q6": "Houve contato com animais infectados?",
+    "q7": "Mora em área endêmica?",
+    "q8": "Já teve leishmaniose antes?",
+    "q9": "A ferida tem mais de 2 semanas?",
+    "q10": "A lesão surgiu após picada de inseto?",
+    "yes": "Sim",
+    "no": "Não",
+    "audioPrefix": "Pergunta {{number}}."
+  },
+  "imageUpload": {
+    "title": "Foto da Lesão",
+    "description": "Se possível, tire uma foto da ferida para melhor orientação. Este passo é opcional.",
+    "takePhoto": "Tirar Foto",
+    "chooseGallery": "Escolher da Galeria",
+    "skip": "Pular esta etapa",
+    "usePhoto": "Usar esta foto",
+    "retake": "Tirar outra"
+  },
+  "result": {
+    "attention": "ATENÇÃO",
+    "emergencyMessage": "Seus sinais são fortemente sugestivos. Procure uma Unidade Básica de Saúde (UBS) urgentemente. O tratamento é gratuito pelo SUS.",
+    "riskLabel": "de risco",
+    "low": "RISCO BAIXO",
+    "lowDesc": "Sinais pouco sugestivos de leishmaniose cutânea.",
+    "lowOrientation": "Sinais pouco sugestivos. Monitorar. Procurar UBS se piorar.",
+    "medium": "RISCO MODERADO",
+    "mediumDesc": "Sinais moderados para leishmaniose cutânea.",
+    "mediumOrientation": "Sinais moderados. Recomendado consulta médica breve.",
+    "high": "RISCO ELEVADO",
+    "highDesc": "Sinais fortemente sugestivos de leishmaniose cutânea.",
+    "highOrientation": "Sinais fortemente sugestivos. Procure UBS urgentemente.",
+    "findUBS": "Ver UBS mais próxima",
+    "learnMore": "Saiba mais",
+    "downloadPDF": "Baixar PDF",
+    "retry": "Refazer Triagem",
+    "disclaimerResult": "Apenas um profissional de saúde pode confirmar o diagnóstico."
+  },
+  "history": {
+    "title": "Histórico de Triagens",
+    "empty": "Nenhuma triagem realizada ainda",
+    "startNow": "Iniciar Triagem",
+    "detailTitle": "Detalhes da Triagem",
+    "patientData": "Dados do Paciente",
+    "answers": "Respostas",
+    "notFound": "Triagem não encontrada"
+  },
+  "education": {
+    "title": "Material Educativo",
+    "mosquitoTitle": "O Mosquito-Palha",
+    "mosquitoText": "A leishmaniose cutânea é transmitida pela picada de um inseto muito pequeno chamado mosquito-palha (Lutzomyia). Ele é menor que um mosquito comum e costuma picar ao entardecer e à noite. Vive em áreas com muita vegetação, lixo, entulho e próximo a animais domésticos.",
+    "prevention": "Prevenção",
+    "preventionText": "Para se proteger: use repelente, coloque telas nas janelas e portas, evite acúmulo de lixo e entulho no quintal, e mantenha animais domésticos limpos e protegidos.",
+    "phasesTitle": "Fases da Lesão",
+    "phase1": "Fase Inicial (Pápula)",
+    "phase1Desc": "Aparece uma pequena elevação avermelhada na pele, parecida com uma picada de inseto que não melhora. Pode coçar um pouco.",
+    "phase2": "Fase Ulcerada",
+    "phase2Desc": "A elevação cresce e forma uma ferida aberta com bordas elevadas. O centro fica mais fundo, como uma cratera. Geralmente não dói.",
+    "phase3": "Fase Avançada",
+    "phase3Desc": "Sem tratamento, a ferida pode crescer bastante e durar meses ou anos. Pode aparecer mais de uma ferida em diferentes partes do corpo.",
+    "warning": "Se você identificou alguma ferida parecida, procure uma Unidade Básica de Saúde. O tratamento é gratuito pelo SUS.",
+    "backHome": "Voltar ao Início"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Página não encontrada",
+    "backHome": "Voltar ao Início"
+  },
+  "language": {
+    "title": "Idioma / Language / Idioma",
+    "pt": "Português (Brasil)",
+    "en": "English (United States)",
+    "es": "Español (América Latina)"
+  },
+  "audio": {
+    "home": "Bem-vindo ao LeishCheck. Cuide da sua saúde. Simples, rápido e gratuito. Toque em Iniciar Triagem para começar.",
+    "consent": "Sua privacidade é importante. Por favor, leia o termo de consentimento abaixo e role até o final para continuar.",
+    "userData": "Informe seus dados básicos. Todos os campos são opcionais. Toque em Continuar quando estiver pronto.",
+    "imageUpload": "Se desejar, tire uma foto da lesão ou selecione uma imagem da galeria. Você também pode pular esta etapa.",
+    "education": "Material educativo sobre leishmaniose cutânea. Aqui você encontra informações sobre o mosquito-palha e as fases da doença."
+  }
+}

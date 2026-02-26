@@ -1,0 +1,130 @@
+{
+  "app": {
+    "name": "LeishCheck",
+    "tagline": "Cuida tu salud.\nSimple, rápido y gratuito.",
+    "version": "v1.0",
+    "disclaimer": "Esta herramienta no sustituye la consulta médica presencial."
+  },
+  "nav": {
+    "start": "Iniciar Triaje",
+    "education": "Material Educativo",
+    "history": "Historial",
+    "back": "Volver",
+    "continue": "Continuar"
+  },
+  "consent": {
+    "title": "Tu privacidad es importante",
+    "scrollHint": "Desplácese hasta el final para continuar",
+    "checkbox": "He leído y acepto los términos de consentimiento",
+    "accept": "Aceptar y Continuar",
+    "decline": "No acepto",
+    "declineTitle": "Entendemos tu decisión",
+    "declineMessage": "Sin el consentimiento, no es posible realizar el triaje. Puedes volver cuando quieras.",
+    "backHome": "Volver al Inicio",
+    "reconsider": "Reconsiderar",
+    "term": "FORMULARIO DE CONSENTIMIENTO INFORMADO\n\nAl continuar, usted acepta voluntariamente proporcionar información personal y de salud para uso exclusivo en esta herramienta de triaje de riesgo de Leishmaniasis Cutánea.\n\nLOS DATOS UTILIZADOS INCLUYEN:\n• Edad, género y ubicación geográfica aproximada;\n• Respuestas al cuestionario de signos y síntomas;\n• Imágenes opcionales de lesiones cutáneas (capturadas por la cámara del dispositivo).\n\nFINALIDAD:\nEstos datos se utilizarán exclusivamente para calcular una estimación de riesgo de Leishmaniasis Cutánea y proporcionar orientación preliminar de salud. Esta herramienta NO realiza diagnóstico médico.\n\nPRIVACIDAD Y SEGURIDAD:\n• Los datos se almacenan SOLO localmente en su dispositivo (IndexedDB/localStorage).\n• Ningún dato personal se envía a servidores externos.\n• Las imágenes capturadas permanecen exclusivamente en su dispositivo.\n• Ningún dato se comparte con terceros.\n\nSUS DERECHOS (conforme la LGPD de Brasil — Ley 13.709/2018):\n• Puede revocar este consentimiento en cualquier momento en la configuración de la aplicación.\n• Puede solicitar la eliminación de sus datos limpiando los datos de la aplicación.\n• Tiene derecho al acceso, corrección y eliminación de sus datos personales.\n\nDECLARACIÓN:\nDeclaro que he leído y comprendido la información anterior, y que acepto voluntariamente participar en el triaje, consciente de que puedo desistir en cualquier momento sin perjuicio.\n\nIMPORTANTE:\n• Esta aplicación es una herramienta auxiliar de triaje y NO sustituye la consulta médica presencial.\n• En caso de sospecha de leishmaniasis, acuda inmediatamente a una Unidad Básica de Salud (UBS).\n• El tratamiento para leishmaniasis es gratuito a través del Sistema Único de Salud (SUS) de Brasil."
+  },
+  "userData": {
+    "title": "Datos Básicos",
+    "optional": "Todos los campos son opcionales",
+    "age": "Edad",
+    "agePlaceholder": "Ej: 35",
+    "gender": "Género",
+    "genderPlaceholder": "Seleccione",
+    "genderMale": "Masculino",
+    "genderFemale": "Femenino",
+    "genderOther": "Otro",
+    "genderPreferNot": "Prefiero no decir",
+    "city": "Ciudad",
+    "cityPlaceholder": "Ej: Manaus",
+    "state": "Estado",
+    "statePlaceholder": "Seleccione el estado"
+  },
+  "questionnaire": {
+    "questionOf": "preguntas",
+    "q1": "¿Vive en una zona rural o boscosa?",
+    "q2": "¿Ha viajado a lugares con casos de leishmaniasis?",
+    "q3": "¿Tiene una lesión en la piel que no cicatriza?",
+    "q4": "¿La lesión está creciendo con el tiempo?",
+    "q5": "¿La lesión no duele y tiene aspecto ulcerado?",
+    "q6": "¿Ha tenido contacto con animales infectados?",
+    "q7": "¿Vive en una zona endémica?",
+    "q8": "¿Ha tenido leishmaniasis antes?",
+    "q9": "¿La herida tiene más de 2 semanas?",
+    "q10": "¿La lesión apareció después de una picadura de insecto?",
+    "yes": "Sí",
+    "no": "No",
+    "audioPrefix": "Pregunta {{number}}."
+  },
+  "imageUpload": {
+    "title": "Foto de la Lesión",
+    "description": "Si es posible, tome una foto de la herida para una mejor orientación. Este paso es opcional.",
+    "takePhoto": "Tomar Foto",
+    "chooseGallery": "Elegir de la Galería",
+    "skip": "Saltar este paso",
+    "usePhoto": "Usar esta foto",
+    "retake": "Tomar otra"
+  },
+  "result": {
+    "attention": "ATENCIÓN",
+    "emergencyMessage": "Sus signos son fuertemente sugestivos. Acuda a una Unidad Básica de Salud (UBS) urgentemente. El tratamiento es gratuito por el SUS.",
+    "riskLabel": "de riesgo",
+    "low": "RIESGO BAJO",
+    "lowDesc": "Signos poco sugestivos de leishmaniasis cutánea.",
+    "lowOrientation": "Signos poco sugestivos. Monitorear. Acudir a UBS si empeora.",
+    "medium": "RIESGO MODERADO",
+    "mediumDesc": "Signos moderados para leishmaniasis cutánea.",
+    "mediumOrientation": "Signos moderados. Se recomienda consulta médica pronto.",
+    "high": "RIESGO ELEVADO",
+    "highDesc": "Signos fuertemente sugestivos de leishmaniasis cutánea.",
+    "highOrientation": "Signos fuertemente sugestivos. Acuda a UBS urgentemente.",
+    "findUBS": "Ver UBS más cercana",
+    "learnMore": "Saber más",
+    "downloadPDF": "Descargar PDF",
+    "retry": "Rehacer Triaje",
+    "disclaimerResult": "Solo un profesional de salud puede confirmar el diagnóstico."
+  },
+  "history": {
+    "title": "Historial de Triajes",
+    "empty": "Ningún triaje realizado aún",
+    "startNow": "Iniciar Triaje",
+    "detailTitle": "Detalles del Triaje",
+    "patientData": "Datos del Paciente",
+    "answers": "Respuestas",
+    "notFound": "Triaje no encontrado"
+  },
+  "education": {
+    "title": "Material Educativo",
+    "mosquitoTitle": "El Mosquito de Arena",
+    "mosquitoText": "La leishmaniasis cutánea se transmite por la picadura de un insecto muy pequeño llamado mosquito de arena (Lutzomyia). Es más pequeño que un mosquito común y suele picar al atardecer y por la noche. Vive en áreas con mucha vegetación, basura, escombros y cerca de animales domésticos.",
+    "prevention": "Prevención",
+    "preventionText": "Para protegerse: use repelente, coloque mallas en ventanas y puertas, evite acumulación de basura y escombros en el patio, y mantenga a los animales domésticos limpios y protegidos.",
+    "phasesTitle": "Fases de la Lesión",
+    "phase1": "Fase Inicial (Pápula)",
+    "phase1Desc": "Aparece una pequeña elevación rojiza en la piel, parecida a una picadura de insecto que no mejora. Puede picar un poco.",
+    "phase2": "Fase Ulcerada",
+    "phase2Desc": "La elevación crece y forma una herida abierta con bordes elevados. El centro se hace más profundo, como un cráter. Generalmente no duele.",
+    "phase3": "Fase Avanzada",
+    "phase3Desc": "Sin tratamiento, la herida puede crecer mucho y durar meses o años. Puede aparecer más de una herida en diferentes partes del cuerpo.",
+    "warning": "Si identificó una herida parecida, acuda a una Unidad Básica de Salud. El tratamiento es gratuito por el SUS.",
+    "backHome": "Volver al Inicio"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Página no encontrada",
+    "backHome": "Volver al Inicio"
+  },
+  "language": {
+    "title": "Idioma / Language / Idioma",
+    "pt": "Português (Brasil)",
+    "en": "English (United States)",
+    "es": "Español (América Latina)"
+  },
+  "audio": {
+    "home": "Bienvenido a LeishCheck. Cuida tu salud. Simple, rápido y gratuito. Toca Iniciar Triaje para comenzar.",
+    "consent": "Tu privacidad es importante. Por favor, lee el formulario de consentimiento a continuación y desplázate hasta el final para continuar.",
+    "userData": "Ingresa tus datos básicos. Todos los campos son opcionales. Toca Continuar cuando estés listo.",
+    "imageUpload": "Si deseas, toma una foto de la lesión o selecciona una imagen de la galería. También puedes saltar este paso.",
+    "education": "Material educativo sobre leishmaniasis cutánea. Aquí encontrarás información sobre el mosquito de arena y las fases de la enfermedad."
+  }
+}

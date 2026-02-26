@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AudioToggle } from "@/components/AudioToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { VLibrasWidget } from "@/components/VLibrasWidget";
 import Home from "./pages/Home";
 import Consent from "./pages/Consent";
 import UserDataPage from "./pages/UserDataPage";
@@ -45,7 +47,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AudioToggle />
+        <LanguageSelector />
         <AnimatedRoutes />
+        <VLibrasWidget />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

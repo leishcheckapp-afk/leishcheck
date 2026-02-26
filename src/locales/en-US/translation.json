@@ -1,0 +1,130 @@
+{
+  "app": {
+    "name": "LeishCheck",
+    "tagline": "Take care of your health.\nSimple, fast and free.",
+    "version": "v1.0",
+    "disclaimer": "This tool does not replace an in-person medical consultation."
+  },
+  "nav": {
+    "start": "Start Screening",
+    "education": "Educational Material",
+    "history": "History",
+    "back": "Back",
+    "continue": "Continue"
+  },
+  "consent": {
+    "title": "Your privacy matters",
+    "scrollHint": "Scroll to the end to continue",
+    "checkbox": "I have read and agree to the consent terms",
+    "accept": "Accept and Continue",
+    "decline": "I do not accept",
+    "declineTitle": "We understand your decision",
+    "declineMessage": "Without consent, screening cannot proceed. You can return anytime.",
+    "backHome": "Back to Home",
+    "reconsider": "Reconsider",
+    "term": "INFORMED CONSENT FORM\n\nBy continuing, you voluntarily agree to provide personal and health information for exclusive use in this Cutaneous Leishmaniasis risk screening tool.\n\nDATA USED INCLUDES:\n• Age, gender and approximate geographic location;\n• Responses to the signs and symptoms questionnaire;\n• Optional images of skin lesions (captured by the device camera).\n\nPURPOSE:\nThis data will be used exclusively to calculate a risk estimate for Cutaneous Leishmaniasis and provide preliminary health guidance. This tool does NOT provide medical diagnosis.\n\nPRIVACY AND SECURITY:\n• Data is stored ONLY locally on your device (IndexedDB/localStorage).\n• No personal data is sent to external servers.\n• Captured images remain exclusively on your device.\n• No data is shared with third parties.\n\nYOUR RIGHTS (per Brazil's LGPD — Law 13.709/2018):\n• You may revoke this consent at any time in the app settings.\n• You may request deletion of your data by clearing the app data.\n• You have the right to access, correct and delete your personal data.\n\nDECLARATION:\nI declare that I have read and understood the above information, and that I voluntarily agree to participate in the screening, aware that I may withdraw at any time without prejudice.\n\nIMPORTANT:\n• This application is an auxiliary screening tool and does NOT replace in-person medical consultation.\n• If you suspect leishmaniasis, immediately seek a Basic Health Unit (UBS).\n• Treatment for leishmaniasis is free through Brazil's Unified Health System (SUS)."
+  },
+  "userData": {
+    "title": "Basic Information",
+    "optional": "All fields are optional",
+    "age": "Age",
+    "agePlaceholder": "e.g. 35",
+    "gender": "Gender",
+    "genderPlaceholder": "Select",
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "genderOther": "Other",
+    "genderPreferNot": "Prefer not to say",
+    "city": "City",
+    "cityPlaceholder": "e.g. Manaus",
+    "state": "State",
+    "statePlaceholder": "Select a state"
+  },
+  "questionnaire": {
+    "questionOf": "questions",
+    "q1": "Do you live in a rural or forested area?",
+    "q2": "Have you traveled to areas with leishmaniasis cases?",
+    "q3": "Do you have a skin lesion that won't heal?",
+    "q4": "Is the lesion growing over time?",
+    "q5": "Is the lesion painless and ulcerated?",
+    "q6": "Have you had contact with infected animals?",
+    "q7": "Do you live in an endemic area?",
+    "q8": "Have you had leishmaniasis before?",
+    "q9": "Has the wound lasted more than 2 weeks?",
+    "q10": "Did the lesion appear after an insect bite?",
+    "yes": "Yes",
+    "no": "No",
+    "audioPrefix": "Question {{number}}."
+  },
+  "imageUpload": {
+    "title": "Lesion Photo",
+    "description": "If possible, take a photo of the wound for better guidance. This step is optional.",
+    "takePhoto": "Take Photo",
+    "chooseGallery": "Choose from Gallery",
+    "skip": "Skip this step",
+    "usePhoto": "Use this photo",
+    "retake": "Take another"
+  },
+  "result": {
+    "attention": "WARNING",
+    "emergencyMessage": "Your signs are strongly suggestive. Seek a Basic Health Unit (UBS) urgently. Treatment is free through SUS.",
+    "riskLabel": "risk",
+    "low": "LOW RISK",
+    "lowDesc": "Signs not very suggestive of cutaneous leishmaniasis.",
+    "lowOrientation": "Low suspicion. Monitor and seek UBS if worsens.",
+    "medium": "MODERATE RISK",
+    "mediumDesc": "Moderate signs for cutaneous leishmaniasis.",
+    "mediumOrientation": "Moderate signs. Medical consultation recommended soon.",
+    "high": "HIGH RISK",
+    "highDesc": "Signs strongly suggestive of cutaneous leishmaniasis.",
+    "highOrientation": "Strongly suggestive signs. Seek UBS urgently.",
+    "findUBS": "Find nearest UBS",
+    "learnMore": "Learn more",
+    "downloadPDF": "Download PDF",
+    "retry": "Redo Screening",
+    "disclaimerResult": "Only a health professional can confirm the diagnosis."
+  },
+  "history": {
+    "title": "Screening History",
+    "empty": "No screenings performed yet",
+    "startNow": "Start Screening",
+    "detailTitle": "Screening Details",
+    "patientData": "Patient Data",
+    "answers": "Answers",
+    "notFound": "Screening not found"
+  },
+  "education": {
+    "title": "Educational Material",
+    "mosquitoTitle": "The Sand Fly",
+    "mosquitoText": "Cutaneous leishmaniasis is transmitted by the bite of a very small insect called the sand fly (Lutzomyia). It is smaller than a common mosquito and usually bites at dusk and at night. It lives in areas with dense vegetation, garbage, debris, and near domestic animals.",
+    "prevention": "Prevention",
+    "preventionText": "To protect yourself: use repellent, install screens on windows and doors, avoid accumulation of garbage and debris in the yard, and keep domestic animals clean and protected.",
+    "phasesTitle": "Lesion Phases",
+    "phase1": "Initial Phase (Papule)",
+    "phase1Desc": "A small reddish bump appears on the skin, similar to an insect bite that doesn't improve. It may itch slightly.",
+    "phase2": "Ulcerated Phase",
+    "phase2Desc": "The bump grows and forms an open wound with raised edges. The center becomes deeper, like a crater. It usually doesn't hurt.",
+    "phase3": "Advanced Phase",
+    "phase3Desc": "Without treatment, the wound can grow significantly and last months or years. More than one wound may appear on different body parts.",
+    "warning": "If you've identified a similar wound, seek a Basic Health Unit. Treatment is free through SUS.",
+    "backHome": "Back to Home"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Page not found",
+    "backHome": "Back to Home"
+  },
+  "language": {
+    "title": "Idioma / Language / Idioma",
+    "pt": "Português (Brasil)",
+    "en": "English (United States)",
+    "es": "Español (América Latina)"
+  },
+  "audio": {
+    "home": "Welcome to LeishCheck. Take care of your health. Simple, fast and free. Tap Start Screening to begin.",
+    "consent": "Your privacy matters. Please read the consent form below and scroll to the end to continue.",
+    "userData": "Enter your basic information. All fields are optional. Tap Continue when you're ready.",
+    "imageUpload": "If you wish, take a photo of the lesion or select an image from the gallery. You can also skip this step.",
+    "education": "Educational material about cutaneous leishmaniasis. Here you'll find information about the sand fly and the phases of the disease."
+  }
+}

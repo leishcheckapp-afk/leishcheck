@@ -7,6 +7,7 @@ import { MapPin, BookOpen, RotateCcw, AlertTriangle, FileDown, ShieldCheck } fro
 import AnimatedPage from '@/components/AnimatedPage';
 import { motion } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useTranslation } from 'react-i18next';
 
 const CIRCLE_RADIUS = 70;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
@@ -16,165 +17,78 @@ export default function Result() {
   const { result, resetTriagem, audioEnabled, answers, userData } = useLeishCheckStore();
   const [displayPercent, setDisplayPercent] = useState(0);
   const prefersReduced = useReducedMotion();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (result && audioEnabled) {
-      speakText(`Resultado: ${result.title}. ${result.description}. ${result.orientation}`);
+      const titleKey = `result.${result.level}`;
+      const descKey = `result.${result.level}Desc`;
+      speakText(`${t(titleKey)}. ${t(descKey)}`);
     }
-  }, [result, audioEnabled]);
+  }, [result, audioEnabled, t]);
 
   useEffect(() => {
     if (!result) return;
-    if (prefersReduced) {
-      setDisplayPercent(result.percentage);
-      return;
-    }
+    if (prefersReduced) { setDisplayPercent(result.percentage); return; }
     const target = result.percentage;
     const duration = 1200;
     const startTime = performance.now();
     const animate = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplayPercent(Math.round(eased * target));
+      setDisplayPercent(Math.round((1 - Math.pow(1 - progress, 3)) * target));
       if (progress < 1) requestAnimationFrame(animate);
     };
     requestAnimationFrame(animate);
   }, [result, prefersReduced]);
 
-  if (!result) {
-    navigate('/');
-    return null;
-  }
+  if (!result) { navigate('/'); return null; }
 
   const colorMap = {
-    low: { stroke: 'hsl(152 56% 34%)', text: 'text-success', bg: 'bg-success/10', glow: '0 0 30px hsl(152 56% 34% / 0.3)' },
-    medium: { stroke: 'hsl(42 96% 56%)', text: 'text-warning', bg: 'bg-warning/10', glow: '0 0 30px hsl(42 96% 56% / 0.3)' },
-    high: { stroke: 'hsl(0 72% 50%)', text: 'text-danger', bg: 'bg-danger/10', glow: '0 0 30px hsl(0 72% 50% / 0.3)' },
+    low: { stroke: 'hsl(152 56% 34%)', text: 'text-success', glow: '0 0 30px hsl(152 56% 34% / 0.3)' },
+    medium: { stroke: 'hsl(42 96% 56%)', text: 'text-warning', glow: '0 0 30px hsl(42 96% 56% / 0.3)' },
+    high: { stroke: 'hsl(0 72% 50%)', text: 'text-danger', glow: '0 0 30px hsl(0 72% 50% / 0.3)' },
   };
   const colors = colorMap[result.level];
   const strokeDashoffset = CIRCUMFERENCE - (result.percentage / 100) * CIRCUMFERENCE;
   const dur = prefersReduced ? 0 : 1.2;
 
-  const handleRetry = () => {
-    resetTriagem();
-    navigate('/');
-  };
-
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col items-center gap-6">
-        {/* Emergency alert */}
         {result.level === 'high' && (
-          <motion.div
-            className="w-full glass-card border-2 border-danger/50 p-5 text-center animate-pulse-ring"
-            initial={prefersReduced ? false : { opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: dur * 0.3 }}
-          >
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <AlertTriangle className="h-6 w-6 text-danger" />
-              <span className="text-lg font-bold text-danger">ATENÇÃO</span>
-            </div>
-            <p className="text-sm font-medium leading-relaxed text-danger">
-              Seus sinais são fortemente sugestivos. Procure uma Unidade Básica de Saúde (UBS) urgentemente. O tratamento é gratuito pelo SUS.
-            </p>
+          <motion.div className="w-full glass-card border-2 border-danger/50 p-5 text-center animate-pulse-ring" initial={prefersReduced ? false : { opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+            <div className="flex items-center justify-center gap-2 mb-2"><AlertTriangle className="h-6 w-6 text-danger" /><span className="text-lg font-bold text-danger">{t('result.attention')}</span></div>
+            <p className="text-sm font-medium leading-relaxed text-danger">{t('result.emergencyMessage')}</p>
           </motion.div>
         )}
-
-        {/* Score Circle with glow */}
         <div className="relative flex items-center justify-center" style={{ filter: `drop-shadow(${colors.glow})` }}>
           <svg width="180" height="180" viewBox="0 0 180 180">
             <circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke="hsl(var(--muted))" strokeWidth="10" />
-            <motion.circle
-              cx="90" cy="90" r={CIRCLE_RADIUS} fill="none"
-              stroke={colors.stroke} strokeWidth="10" strokeLinecap="round"
-              strokeDasharray={CIRCUMFERENCE}
-              initial={{ strokeDashoffset: CIRCUMFERENCE }}
-              animate={{ strokeDashoffset }}
-              transition={{ duration: dur, ease: [0.33, 1, 0.68, 1] }}
-              transform="rotate(-90 90 90)"
-            />
+            <motion.circle cx="90" cy="90" r={CIRCLE_RADIUS} fill="none" stroke={colors.stroke} strokeWidth="10" strokeLinecap="round" strokeDasharray={CIRCUMFERENCE} initial={{ strokeDashoffset: CIRCUMFERENCE }} animate={{ strokeDashoffset }} transition={{ duration: dur, ease: [0.33, 1, 0.68, 1] }} transform="rotate(-90 90 90)" />
           </svg>
           <div className="absolute flex flex-col items-center">
             <span className={`text-4xl font-bold ${colors.text}`}>{displayPercent}%</span>
-            <span className="text-xs text-muted-foreground">de risco</span>
+            <span className="text-xs text-muted-foreground">{t('result.riskLabel')}</span>
           </div>
         </div>
-
-        <motion.h1
-          className={`text-2xl font-bold ${colors.text}`}
-          initial={prefersReduced ? false : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: prefersReduced ? 0 : 0.8 }}
-        >
-          {result.title}
+        <motion.h1 className={`text-2xl font-bold ${colors.text}`} initial={prefersReduced ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: prefersReduced ? 0 : 0.8 }}>
+          {t(`result.${result.level}`)}
         </motion.h1>
-
-        <motion.div
-          className="glass-card p-6 text-center w-full"
-          initial={prefersReduced ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: prefersReduced ? 0 : 1.0 }}
-        >
-          <p className="text-base leading-relaxed text-card-foreground">{result.description}</p>
+        <motion.div className="glass-card p-6 text-center w-full" initial={prefersReduced ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: prefersReduced ? 0 : 1.0 }}>
+          <p className="text-base leading-relaxed text-card-foreground">{t(`result.${result.level}Desc`)}</p>
           <hr className="my-4 border-border/50" />
-          <p className="text-sm leading-relaxed text-muted-foreground">{result.orientation}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{t(`result.${result.level}Orientation`)}</p>
         </motion.div>
-
-        <motion.div
-          className="flex w-full flex-col gap-3"
-          initial={prefersReduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: prefersReduced ? 0 : 1.2 }}
-        >
-          <button
-            onClick={() => window.open('https://www.google.com/maps/search/UBS+perto+de+mim', '_blank')}
-            className="gradient-btn flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-lg font-semibold"
-            aria-label="Ver unidade básica de saúde mais próxima"
-          >
-            <MapPin className="h-5 w-5" /> Ver UBS mais próxima
-          </button>
-          <Button
-            onClick={() => navigate('/educacao')}
-            variant="secondary"
-            className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"
-            aria-label="Acessar material educativo"
-          >
-            <BookOpen className="mr-2 h-5 w-5" /> Saiba mais
-          </Button>
-          <Button
-            onClick={() => {
-              import('@/lib/generatePDF').then(({ generateResultPDF }) => {
-                generateResultPDF(result, answers, userData);
-              });
-            }}
-            variant="outline"
-            className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"
-            aria-label="Baixar resultado em PDF"
-          >
-            <FileDown className="mr-2 h-5 w-5" /> Baixar PDF
-          </Button>
-          <Button
-            onClick={handleRetry}
-            variant="ghost"
-            className="h-12 w-full rounded-2xl text-muted-foreground"
-            aria-label="Refazer triagem"
-          >
-            <RotateCcw className="mr-2 h-4 w-4" /> Refazer Triagem
-          </Button>
+        <motion.div className="flex w-full flex-col gap-3" initial={prefersReduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: prefersReduced ? 0 : 1.2 }}>
+          <button onClick={() => window.open('https://www.google.com/maps/search/UBS+perto+de+mim', '_blank')} className="gradient-btn flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-lg font-semibold"><MapPin className="h-5 w-5" /> {t('result.findUBS')}</button>
+          <Button onClick={() => navigate('/educacao')} variant="secondary" className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"><BookOpen className="mr-2 h-5 w-5" /> {t('result.learnMore')}</Button>
+          <Button onClick={() => { import('@/lib/generatePDF').then(({ generateResultPDF }) => { generateResultPDF(result, answers, userData); }); }} variant="outline" className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"><FileDown className="mr-2 h-5 w-5" /> {t('result.downloadPDF')}</Button>
+          <Button onClick={() => { resetTriagem(); navigate('/'); }} variant="ghost" className="h-12 w-full rounded-2xl text-muted-foreground"><RotateCcw className="mr-2 h-4 w-4" /> {t('result.retry')}</Button>
         </motion.div>
-
-        <motion.div
-          className="glass-card flex items-center gap-3 p-4 w-full"
-          initial={prefersReduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: prefersReduced ? 0 : 1.4 }}
-        >
+        <motion.div className="glass-card flex items-center gap-3 p-4 w-full" initial={prefersReduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: prefersReduced ? 0 : 1.4 }}>
           <ShieldCheck className="h-5 w-5 text-warning shrink-0" />
-          <p className="text-sm font-medium text-muted-foreground">
-            Apenas um profissional de saúde pode confirmar o diagnóstico.
-          </p>
+          <p className="text-sm font-medium text-muted-foreground">{t('result.disclaimerResult')}</p>
         </motion.div>
       </div>
     </AnimatedPage>
