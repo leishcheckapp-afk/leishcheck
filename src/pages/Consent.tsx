@@ -6,6 +6,7 @@ import { Shield, ChevronDown, HeartHandshake } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import AnimatedPage from '@/components/AnimatedPage';
+import { PageHeader } from '@/components/PageHeader';
 import { useTranslation } from 'react-i18next';
 
 export default function Consent() {
@@ -44,10 +45,7 @@ export default function Consent() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex flex-col items-center gap-3">
-          <div className="icon-circle-blue h-16 w-16"><Shield className="h-8 w-8 text-trust" /></div>
-          <h1 className="text-2xl font-bold text-foreground">{t('consent.title')}</h1>
-        </div>
+        <PageHeader title={t('consent.title')} subtitle={t('consent.subtitle') !== 'consent.subtitle' ? t('consent.subtitle') : undefined} icon={Shield} backTo="/" />
         <div ref={scrollRef} onScroll={handleScroll} className="glass-card h-64 overflow-y-auto p-5 text-sm leading-relaxed text-card-foreground">
           <pre className="whitespace-pre-wrap font-sans">{t('consent.term')}</pre>
         </div>

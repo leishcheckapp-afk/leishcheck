@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
-import { User, ArrowLeft, Calendar, MapPin, Users } from 'lucide-react';
+import { User, Calendar, MapPin, Users } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AnimatedPage from '@/components/AnimatedPage';
+import { PageHeader } from '@/components/PageHeader';
 import { useTranslation } from 'react-i18next';
 
 const ESTADOS = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
@@ -38,14 +39,7 @@ export default function UserDataPage() {
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/80 hover-lift" aria-label={t('nav.back')}><ArrowLeft className="h-5 w-5" /></button>
-          <h1 className="text-2xl font-bold text-foreground">{t('userData.title')}</h1>
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <div className="icon-circle h-16 w-16"><User className="h-8 w-8 text-primary" /></div>
-          <p className="text-sm text-muted-foreground">{t('userData.optional')}</p>
-        </div>
+        <PageHeader title={t('userData.title')} subtitle={t('userData.optional')} icon={User} />
         <div className="glass-card p-6 flex flex-col gap-5">
           <div className="space-y-2">
             <Label htmlFor="age" className="text-base font-medium flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" /> {t('userData.age')}</Label>

@@ -2,9 +2,10 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
-import { Camera, Image, SkipForward, ArrowLeft } from 'lucide-react';
+import { Camera, Image, SkipForward } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AnimatedPage from '@/components/AnimatedPage';
+import { PageHeader } from '@/components/PageHeader';
 import { useTranslation } from 'react-i18next';
 
 export default function ImageUpload() {
@@ -28,14 +29,7 @@ export default function ImageUpload() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/80 hover-lift" aria-label={t('nav.back')}><ArrowLeft className="h-5 w-5" /></button>
-          <h1 className="text-2xl font-bold text-foreground">{t('imageUpload.title')}</h1>
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <div className="icon-circle h-16 w-16"><Camera className="h-8 w-8 text-primary" /></div>
-          <p className="text-center text-sm text-muted-foreground">{t('imageUpload.description')}</p>
-        </div>
+        <PageHeader title={t('imageUpload.title')} subtitle={t('imageUpload.description')} icon={Camera} />
         {preview ? (
           <div className="flex flex-col gap-4">
             <div className="relative overflow-hidden rounded-2xl glow-green"><img src={preview} alt="Lesion photo" className="w-full object-cover" style={{ maxHeight: 300 }} /></div>

@@ -23,7 +23,7 @@ export function LanguageSelector() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed top-4 left-16 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-border/50 shadow-lg transition-all hover:scale-110 active:scale-95"
+        className="fixed top-4 left-[4.5rem] z-50 flex h-12 w-12 items-center justify-center rounded-full border border-border/50 shadow-lg transition-all hover:scale-110 active:scale-95"
         style={{
           background: 'hsl(var(--card) / 0.85)',
           backdropFilter: 'blur(16px)',

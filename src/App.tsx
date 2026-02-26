@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AudioToggle } from "@/components/AudioToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { VLibrasWidget } from "@/components/VLibrasWidget";
 import Home from "./pages/Home";
 import Consent from "./pages/Consent";
@@ -46,6 +47,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <DarkModeToggle />
         <AudioToggle />
         <LanguageSelector />
         <AnimatedRoutes />

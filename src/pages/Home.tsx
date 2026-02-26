@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { useEffect } from 'react';
-import { BookOpen, History, Stethoscope, ShieldCheck, Moon, Sun } from 'lucide-react';
+import { BookOpen, History, Stethoscope, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoLeishCheck from '@/assets/logo-leishcheck.png';
 import AnimatedPage from '@/components/AnimatedPage';
@@ -11,7 +11,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTranslation } from 'react-i18next';
 
 export default function Home() {
-  const { audioEnabled, checkConsentValid, darkMode, toggleDarkMode } = useLeishCheckStore();
+  const { audioEnabled, checkConsentValid } = useLeishCheckStore();
   const navigate = useNavigate();
   const prefersReduced = useReducedMotion();
   const { t } = useTranslation();
@@ -30,10 +30,6 @@ export default function Home() {
 
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center justify-center px-6">
-      <button onClick={toggleDarkMode} className="fixed top-4 left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-border/50 shadow-lg transition-all hover:scale-110 active:scale-95" style={{ background: 'hsl(var(--card) / 0.85)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }} aria-label={darkMode ? 'Light mode' : 'Dark mode'}>
-        {darkMode ? <Sun className="h-5 w-5 text-warning" /> : <Moon className="h-5 w-5 text-muted-foreground" />}
-      </button>
-
       <motion.div className="flex flex-col items-center gap-10 text-center max-w-sm" variants={container} initial="hidden" animate="show">
         <motion.div variants={item} className="flex h-28 w-28 items-center justify-center rounded-3xl overflow-hidden glow-green">
           <img src={logoLeishCheck} alt="Logo LeishCheck" className="h-full w-full object-cover" />

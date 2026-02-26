@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { questions } from '@/data/questions';
-import { ArrowLeft, Check, X } from 'lucide-react';
+import { ArrowLeft, Check, X, Stethoscope } from 'lucide-react';
 import AnimatedPage from '@/components/AnimatedPage';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -38,18 +38,31 @@ export default function Questionnaire() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <button onClick={handleBack} className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/80 hover-lift" aria-label={t('nav.back')}><ArrowLeft className="h-5 w-5" /></button>
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-1">
-              <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">{currentQuestion + 1}</span>
-              <span className="text-xs text-muted-foreground">{questions.length} {t('questionnaire.questionOf')}</span>
-            </div>
-            <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-muted">
-              <motion.div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, hsl(152 56% 34%), hsl(152 38% 50%))' }} initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.4, ease: 'easeOut' }} />
+        {/* Header with glass back button + progress */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-4">
+            <button onClick={handleBack} className="glass-card flex h-11 w-11 shrink-0 items-center justify-center rounded-xl hover-lift" aria-label={t('nav.back')}>
+              <ArrowLeft className="h-5 w-5 text-primary" />
+            </button>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <Stethoscope className="h-5 w-5 text-primary shrink-0" />
+                <h1 className="text-2xl font-bold text-gradient truncate">{t('questionnaire.title')}</h1>
+              </div>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {t('questionnaire.questionOf', { current: currentQuestion + 1, total: questions.length }) !== `questionnaire.questionOf`
+                  ? t('questionnaire.questionOf', { current: currentQuestion + 1, total: questions.length })
+                  : `${currentQuestion + 1} de ${questions.length}`}
+              </p>
             </div>
           </div>
+          <div className="h-0.5 w-16 rounded-full bg-gradient-to-r from-primary to-primary-light" />
+          {/* Progress bar */}
+          <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-muted">
+            <motion.div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, hsl(152 56% 34%), hsl(152 38% 50%))' }} initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.4, ease: 'easeOut' }} />
+          </div>
         </div>
+
         <AnimatePresence mode="wait">
           <motion.div key={currentQuestion} initial={prefersReduced ? false : { opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={prefersReduced ? undefined : { opacity: 0, x: -30 }} transition={{ duration: dur }} className="glass-card flex flex-col items-center gap-6 p-8 text-center">
             <div className="icon-circle h-16 w-16"><span className="text-3xl" role="img" aria-hidden="true">{q.icon}</span></div>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSessions } from '@/lib/db';
-import { ArrowLeft, Clock, ChevronRight, Stethoscope } from 'lucide-react';
+import { Clock, ChevronRight, Stethoscope } from 'lucide-react';
 import AnimatedPage from '@/components/AnimatedPage';
+import { PageHeader } from '@/components/PageHeader';
 import { useTranslation } from 'react-i18next';
 
 interface SessionRecord { id?: number; date: string; userData: any; answers: any[]; result: { percentage: number; level: string; title: string }; hasImage: boolean; }
@@ -24,10 +25,7 @@ export default function History() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/')} className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/80 hover-lift" aria-label={t('nav.back')}><ArrowLeft className="h-5 w-5" /></button>
-          <h1 className="text-2xl font-bold text-foreground">{t('history.title')}</h1>
-        </div>
+        <PageHeader title={t('history.title')} icon={Clock} backTo="/" />
         {loading ? (
           <div className="flex justify-center py-12"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>
         ) : sessions.length === 0 ? (

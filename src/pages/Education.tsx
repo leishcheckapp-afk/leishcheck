@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
-import { ArrowLeft, Volume2, Shield, Bug } from 'lucide-react';
+import { Volume2, Shield, Bug, BookOpen } from 'lucide-react';
 import AnimatedPage from '@/components/AnimatedPage';
+import { PageHeader } from '@/components/PageHeader';
 import { useTranslation } from 'react-i18next';
 
 export default function Education() {
@@ -23,10 +24,7 @@ export default function Education() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/')} className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/80 hover-lift" aria-label={t('nav.back')}><ArrowLeft className="h-5 w-5" /></button>
-          <h1 className="text-2xl font-bold text-foreground">{t('education.title')}</h1>
-        </div>
+        <PageHeader title={t('education.title')} icon={BookOpen} backTo="/" />
         <div className="glass-card p-6 border-l-4 border-l-primary">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3"><div className="icon-circle h-10 w-10"><Bug className="h-5 w-5 text-primary" /></div><h2 className="text-lg font-bold text-foreground">{t('education.mosquitoTitle')}</h2></div>

@@ -3,8 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getSessionById } from '@/lib/db';
 import { questions } from '@/data/questions';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, FileDown, Check, X } from 'lucide-react';
+import { FileDown, Check, X, ClipboardList } from 'lucide-react';
 import AnimatedPage from '@/components/AnimatedPage';
+import { PageHeader } from '@/components/PageHeader';
 import type { DbSession } from '@/lib/db';
 import { useTranslation } from 'react-i18next';
 
@@ -28,13 +29,12 @@ export default function HistoryDetail() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/historico')} className="flex h-10 w-10 items-center justify-center rounded-full bg-muted/80 hover-lift" aria-label={t('nav.back')}><ArrowLeft className="h-5 w-5" /></button>
-          <div>
-            <h1 className="text-xl font-bold text-foreground">{t('history.detailTitle')}</h1>
-            <p className="text-xs text-muted-foreground">{date.toLocaleDateString('pt-BR')} às {date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
-          </div>
-        </div>
+        <PageHeader
+          title={t('history.detailTitle')}
+          subtitle={`${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`}
+          icon={ClipboardList}
+          backTo="/historico"
+        />
         <div className="glass-card flex items-center gap-4 p-5">
           <div className="flex flex-col items-center">
             <span className={`text-3xl font-bold ${badge.split(' ')[1]}`}>{session.result.percentage}%</span>
