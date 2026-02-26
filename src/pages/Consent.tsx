@@ -9,30 +9,39 @@ import AnimatedPage from '@/components/AnimatedPage';
 
 const CONSENT_TEXT = `TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO
 
-Esta ferramenta, denominada LeishCheck, é um aplicativo de triagem de risco para Leishmaniose Cutânea, desenvolvido exclusivamente para fins educativos e de orientação preliminar.
+Ao continuar, você concorda voluntariamente em fornecer informações pessoais e de saúde para uso exclusivo nesta ferramenta de triagem de risco para Leishmaniose Tegumentar.
 
-IMPORTANTE: O LeishCheck NÃO realiza diagnóstico médico. Os resultados apresentados são baseados em um questionário de avaliação de risco e não substituem, em hipótese alguma, a avaliação presencial por um profissional de saúde qualificado.
+OS DADOS UTILIZADOS INCLUEM:
+• Idade, gênero e localização geográfica aproximada;
+• Respostas ao questionário de sinais e sintomas;
+• Imagens opcionais de lesões cutâneas (capturadas pela câmera do dispositivo).
 
-COLETA DE DADOS:
-• As informações fornecidas (idade, gênero, localização e respostas ao questionário) são armazenadas APENAS no seu dispositivo (localStorage).
+FINALIDADE:
+Esses dados serão utilizados exclusivamente para calcular uma estimativa de risco de Leishmaniose Tegumentar e fornecer orientações preliminares de saúde. Esta ferramenta NÃO realiza diagnóstico médico.
+
+PRIVACIDADE E SEGURANÇA:
+• Os dados são armazenados APENAS localmente no seu dispositivo (IndexedDB/localStorage).
 • Nenhum dado pessoal é enviado para servidores externos.
 • As imagens capturadas permanecem exclusivamente no seu aparelho.
+• Nenhum dado é compartilhado com terceiros.
 
-SEUS DIREITOS (conforme a LGPD - Lei 13.709/2018):
-• Você pode revogar este consentimento a qualquer momento.
+SEUS DIREITOS (conforme a LGPD — Lei 13.709/2018):
+• Você pode revogar este consentimento a qualquer momento nas configurações do aplicativo.
 • Você pode solicitar a exclusão dos seus dados limpando os dados do aplicativo.
-• Seus dados não são compartilhados com terceiros.
+• Você tem direito ao acesso, correção e eliminação dos seus dados pessoais.
 
-LIMITAÇÕES:
-• Este aplicativo é uma ferramenta auxiliar de triagem e não substitui consulta médica.
+DECLARAÇÃO:
+Declaro que li e compreendi as informações acima, e que aceito voluntariamente participar da triagem, ciente de que posso desistir a qualquer momento sem qualquer prejuízo.
+
+IMPORTANTE:
+• Este aplicativo é uma ferramenta auxiliar de triagem e NÃO substitui consulta médica presencial.
 • Em caso de suspeita de leishmaniose, procure imediatamente uma Unidade Básica de Saúde (UBS).
-• O tratamento para leishmaniose é gratuito pelo Sistema Único de Saúde (SUS).
-
-Ao aceitar este termo, você declara que compreendeu as informações acima e consente com o uso dos seus dados conforme descrito.`;
+• O tratamento para leishmaniose é gratuito pelo Sistema Único de Saúde (SUS).`;
 
 export default function Consent() {
   const [scrolledToEnd, setScrolledToEnd] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [showDeclineMessage, setShowDeclineMessage] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { setConsent, audioEnabled } = useLeishCheckStore();
@@ -56,8 +65,39 @@ export default function Consent() {
   };
 
   const handleDecline = () => {
-    navigate('/');
+    setShowDeclineMessage(true);
   };
+
+  if (showDeclineMessage) {
+    return (
+      <AnimatedPage className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md flex flex-col items-center gap-6 rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+            <Shield className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground">Entendemos sua decisão</h2>
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Sem o consentimento, não é possível realizar a triagem. Você pode voltar quando quiser.
+          </p>
+          <div className="flex w-full flex-col gap-3">
+            <Button
+              onClick={() => navigate('/')}
+              className="h-14 w-full rounded-2xl text-lg font-semibold"
+            >
+              Voltar ao Início
+            </Button>
+            <Button
+              onClick={() => setShowDeclineMessage(false)}
+              variant="ghost"
+              className="h-12 w-full rounded-2xl text-muted-foreground"
+            >
+              Reconsiderar
+            </Button>
+          </div>
+        </div>
+      </AnimatedPage>
+    );
+  }
 
   return (
     <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">

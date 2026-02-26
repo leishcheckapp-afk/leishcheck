@@ -8,10 +8,12 @@ import { Progress } from '@/components/ui/progress';
 import { ArrowLeft } from 'lucide-react';
 import AnimatedPage from '@/components/AnimatedPage';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 export default function Questionnaire() {
   const navigate = useNavigate();
   const { currentQuestion, answers, setAnswer, nextQuestion, prevQuestion, audioEnabled } = useLeishCheckStore();
+  const prefersReduced = useReducedMotion();
 
   const q = questions[currentQuestion];
   const progress = ((currentQuestion + 1) / questions.length) * 100;
@@ -40,10 +42,11 @@ export default function Questionnaire() {
     }
   };
 
+  const dur = prefersReduced ? 0 : 0.3;
+
   return (
     <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
-        {/* Header */}
         <div className="flex items-center gap-3">
           <button
             onClick={handleBack}
@@ -60,14 +63,13 @@ export default function Questionnaire() {
           </div>
         </div>
 
-        {/* Question */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestion}
-            initial={{ opacity: 0, x: 30 }}
+            initial={prefersReduced ? false : { opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.3 }}
+            exit={prefersReduced ? undefined : { opacity: 0, x: -30 }}
+            transition={{ duration: dur }}
             className="flex flex-col items-center gap-6 rounded-2xl border border-border bg-card p-8 text-center shadow-sm"
           >
             <span className="text-5xl" role="img" aria-hidden="true">{q.icon}</span>
@@ -77,7 +79,6 @@ export default function Questionnaire() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Answer buttons */}
         <div className="flex gap-4">
           <Button
             onClick={() => handleAnswer(true)}

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { UserData, QuestionAnswer, RiskResult, RiskLevel } from '@/types/leishcheck';
 import { questions, MAX_SCORE } from '@/data/questions';
+import { saveSession } from '@/lib/db';
 
 interface LeishCheckState {
   // Audio
@@ -54,18 +55,18 @@ function calculateRisk(answers: QuestionAnswer[]): RiskResult {
   if (percentage <= 30) {
     level = 'low';
     title = 'RISCO BAIXO';
-    description = 'Com base nas suas respostas, o risco de leishmaniose cutânea é baixo.';
-    orientation = 'Continue se protegendo contra picadas de mosquito. Use repelente e telas nas janelas. Se notar qualquer ferida que não cicatriza, procure uma unidade de saúde.';
+    description = 'Sinais pouco sugestivos de leishmaniose cutânea.';
+    orientation = 'Sinais pouco sugestivos. Monitorar. Procurar UBS se piorar.';
   } else if (percentage <= 60) {
     level = 'medium';
     title = 'RISCO MODERADO';
-    description = 'Suas respostas indicam um risco moderado para leishmaniose cutânea.';
-    orientation = 'Recomendamos que procure uma Unidade Básica de Saúde (UBS) para avaliação. Leve este resultado com você. Enquanto isso, proteja-se contra picadas de mosquito.';
+    description = 'Sinais moderados para leishmaniose cutânea.';
+    orientation = 'Sinais moderados. Recomendado consulta médica breve.';
   } else {
     level = 'high';
     title = 'RISCO ELEVADO';
-    description = 'Suas respostas indicam um risco elevado para leishmaniose cutânea.';
-    orientation = 'Procure uma Unidade Básica de Saúde (UBS) o mais rápido possível para avaliação médica. A leishmaniose tem tratamento gratuito pelo SUS. Quanto antes o diagnóstico, melhor o resultado.';
+    description = 'Sinais fortemente sugestivos de leishmaniose cutânea.';
+    orientation = 'Sinais fortemente sugestivos. Procure UBS urgentemente.';
   }
 
   return { score, percentage, level, title, description, orientation };
@@ -107,8 +108,19 @@ export const useLeishCheckStore = create<LeishCheckState>()(
 
       result: null,
       calculateResult: () => {
-        const result = calculateRisk(get().answers);
+        const state = get();
+        const result = calculateRisk(state.answers);
         set({ result });
+
+        // Persist session to IndexedDB
+        saveSession({
+          date: new Date().toISOString(),
+          userData: state.userData,
+          answers: state.answers,
+          result,
+          hasImage: !!state.imageBase64,
+        }).catch(console.error);
+
         return result;
       },
 
