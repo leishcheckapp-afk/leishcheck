@@ -9,6 +9,10 @@ interface LeishCheckState {
   audioEnabled: boolean;
   toggleAudio: () => void;
 
+  // Dark mode
+  darkMode: boolean;
+  toggleDarkMode: () => void;
+
   // Consent
   consentGiven: boolean;
   consentDate: string | null;
@@ -72,11 +76,27 @@ function calculateRisk(answers: QuestionAnswer[]): RiskResult {
   return { score, percentage, level, title, description, orientation };
 }
 
+function applyDarkClass(dark: boolean) {
+  if (dark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+}
+
 export const useLeishCheckStore = create<LeishCheckState>()(
   persist(
     (set, get) => ({
       audioEnabled: false,
       toggleAudio: () => set((s) => ({ audioEnabled: !s.audioEnabled })),
+
+      darkMode: false,
+      toggleDarkMode: () =>
+        set((s) => {
+          const next = !s.darkMode;
+          applyDarkClass(next);
+          return { darkMode: next };
+        }),
 
       consentGiven: false,
       consentDate: null,
@@ -86,7 +106,7 @@ export const useLeishCheckStore = create<LeishCheckState>()(
         const { consentGiven, consentDate } = get();
         if (!consentGiven || !consentDate) return false;
         const diff = Date.now() - new Date(consentDate).getTime();
-        return diff < 90 * 24 * 60 * 60 * 1000; // 90 days
+        return diff < 90 * 24 * 60 * 60 * 1000;
       },
 
       userData: {},
@@ -112,7 +132,6 @@ export const useLeishCheckStore = create<LeishCheckState>()(
         const result = calculateRisk(state.answers);
         set({ result });
 
-        // Persist session to IndexedDB
         saveSession({
           date: new Date().toISOString(),
           userData: state.userData,
@@ -139,7 +158,13 @@ export const useLeishCheckStore = create<LeishCheckState>()(
         audioEnabled: state.audioEnabled,
         consentGiven: state.consentGiven,
         consentDate: state.consentDate,
+        darkMode: state.darkMode,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state?.darkMode) {
+          applyDarkClass(state.darkMode);
+        }
+      },
     }
   )
 );

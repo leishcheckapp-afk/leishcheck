@@ -60,7 +60,6 @@ export default function Questionnaire() {
               </span>
               <span className="text-xs text-muted-foreground">{questions.length} perguntas</span>
             </div>
-            {/* Gradient progress bar */}
             <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-muted">
               <motion.div
                 className="h-full rounded-full"
@@ -92,28 +91,32 @@ export default function Questionnaire() {
         </AnimatePresence>
 
         <div className="flex gap-4">
-          <button
+          <motion.button
             onClick={() => handleAnswer(true)}
-            className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all hover-lift ${
+            className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-colors ${
               currentAnswer?.answer === true
                 ? 'bg-success text-success-foreground ring-4 ring-success/30'
                 : 'glass-card text-success hover:bg-success/10'
             }`}
             aria-label="Sim"
+            whileTap={prefersReduced ? {} : { scale: 0.92 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
           >
             <Check className="h-6 w-6" /> Sim
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={() => handleAnswer(false)}
-            className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all hover-lift ${
+            className={`flex h-16 flex-1 items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-colors ${
               currentAnswer?.answer === false
                 ? 'bg-danger text-danger-foreground ring-4 ring-danger/30'
                 : 'glass-card text-danger hover:bg-danger/10'
             }`}
             aria-label="Não"
+            whileTap={prefersReduced ? {} : { scale: 0.92 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
           >
             <X className="h-6 w-6" /> Não
-          </button>
+          </motion.button>
         </div>
       </div>
     </AnimatedPage>
