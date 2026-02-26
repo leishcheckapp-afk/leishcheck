@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { useEffect } from 'react';
-import { Heart, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logoLeishCheck from '@/assets/logo-leishcheck.png';
 
 export default function Home() {
   const { audioEnabled, checkConsentValid } = useLeishCheckStore();
@@ -27,8 +28,8 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center px-6 animate-fade-in">
       <div className="flex flex-col items-center gap-8 text-center max-w-sm">
         {/* Logo */}
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary shadow-lg">
-          <Heart className="h-12 w-12 text-primary-foreground" />
+        <div className="flex h-28 w-28 items-center justify-center rounded-2xl overflow-hidden shadow-lg">
+          <img src={logoLeishCheck} alt="Logo LeishCheck" className="h-full w-full object-cover" />
         </div>
 
         <div>
