@@ -4,6 +4,8 @@ export function VLibrasWidget() {
   useEffect(() => {
     // Check if already loaded
     if (document.getElementById('vlibras-script')) return;
+    // Skip loading when offline — widget is non-essential
+    if (!navigator.onLine) return;
 
     // Create the widget container first
     const widgetDiv = document.createElement('div');

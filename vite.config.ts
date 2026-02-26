@@ -33,13 +33,19 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       workbox: {
+        navigateFallbackDenylist: [/^\/~oauth/],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",
-            options: { cacheName: "google-fonts", expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+            options: { cacheName: "google-fonts-css", expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: "CacheFirst",
+            options: { cacheName: "google-fonts-woff2", expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 } },
           },
         ],
       },

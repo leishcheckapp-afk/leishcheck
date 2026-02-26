@@ -8,6 +8,7 @@ import AnimatedPage from '@/components/AnimatedPage';
 import { motion } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 const CIRCLE_RADIUS = 70;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
@@ -81,7 +82,13 @@ export default function Result() {
           <p className="text-sm leading-relaxed text-muted-foreground">{t(`result.${result.level}Orientation`)}</p>
         </motion.div>
         <motion.div className="flex w-full flex-col gap-3" initial={prefersReduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: prefersReduced ? 0 : 1.2 }}>
-          <button onClick={() => window.open('https://www.google.com/maps/search/UBS+perto+de+mim', '_blank')} className="gradient-btn flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-lg font-semibold"><MapPin className="h-5 w-5" /> {t('result.findUBS')}</button>
+          <button onClick={() => {
+            if (!navigator.onLine) {
+              toast.warning('Sem conexão. Quando voltar online, busque "UBS perto de mim" no Google Maps.');
+              return;
+            }
+            window.open('https://www.google.com/maps/search/UBS+perto+de+mim', '_blank');
+          }} className="gradient-btn flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-lg font-semibold"><MapPin className="h-5 w-5" /> {t('result.findUBS')}</button>
           <Button onClick={() => navigate('/educacao')} variant="secondary" className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"><BookOpen className="mr-2 h-5 w-5" /> {t('result.learnMore')}</Button>
           <Button onClick={() => { import('@/lib/generatePDF').then(({ generateResultPDF }) => { generateResultPDF(result, answers, userData); }); }} variant="outline" className="glass-card h-14 w-full rounded-2xl text-lg font-semibold hover-lift"><FileDown className="mr-2 h-5 w-5" /> {t('result.downloadPDF')}</Button>
           <Button onClick={() => { resetTriagem(); navigate('/'); }} variant="ghost" className="h-12 w-full rounded-2xl text-muted-foreground"><RotateCcw className="mr-2 h-4 w-4" /> {t('result.retry')}</Button>

@@ -8,6 +8,7 @@ import { AudioToggle } from "@/components/AudioToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { VLibrasWidget } from "@/components/VLibrasWidget";
+import { OfflineBanner } from "@/components/OfflineBanner";
 import Home from "./pages/Home";
 import Consent from "./pages/Consent";
 import UserDataPage from "./pages/UserDataPage";
@@ -47,6 +48,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <OfflineBanner />
         <DarkModeToggle />
         <AudioToggle />
         <LanguageSelector />
