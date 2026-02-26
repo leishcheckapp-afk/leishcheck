@@ -5,6 +5,7 @@ import { speakText } from '@/components/AudioToggle';
 import { Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import AnimatedPage from '@/components/AnimatedPage';
 
 const CONSENT_TEXT = `TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO
 
@@ -59,7 +60,7 @@ export default function Consent() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-8 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-trust">
@@ -117,6 +118,6 @@ export default function Consent() {
           ⚠️ Esta ferramenta não substitui consulta médica presencial.
         </p>
       </div>
-    </div>
+    </AnimatedPage>
   );
 }

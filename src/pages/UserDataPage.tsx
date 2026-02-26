@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AnimatedPage from '@/components/AnimatedPage';
 
 const ESTADOS = [
   'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
@@ -38,7 +39,7 @@ export default function UserDataPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-8 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
@@ -109,6 +110,6 @@ export default function UserDataPage() {
           Continuar
         </Button>
       </div>
-    </div>
+    </AnimatedPage>
   );
 }

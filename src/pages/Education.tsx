@@ -5,6 +5,7 @@ import { speakText } from '@/components/AudioToggle';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, Volume2 } from 'lucide-react';
+import AnimatedPage from '@/components/AnimatedPage';
 
 const mosquitoContent = {
   title: 'O Mosquito-Palha',
@@ -45,7 +46,7 @@ export default function Education() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-8 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
         {/* Header */}
         <div className="flex items-center gap-3">
@@ -120,6 +121,6 @@ export default function Education() {
           Voltar ao Início
         </Button>
       </div>
-    </div>
+    </AnimatedPage>
   );
 }

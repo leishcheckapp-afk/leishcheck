@@ -4,6 +4,7 @@ import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { Camera, Image, SkipForward } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import AnimatedPage from '@/components/AnimatedPage';
 
 export default function ImageUpload() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function ImageUpload() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-8 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
@@ -124,6 +125,6 @@ export default function ImageUpload() {
           </Button>
         )}
       </div>
-    </div>
+    </AnimatedPage>
   );
 }

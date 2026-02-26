@@ -4,6 +4,7 @@ import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { Button } from '@/components/ui/button';
 import { MapPin, BookOpen, RotateCcw } from 'lucide-react';
+import AnimatedPage from '@/components/AnimatedPage';
 
 export default function Result() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function Result() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-4 py-8 animate-fade-in">
+    <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col items-center gap-6">
         {/* Score circle */}
         <div className={`flex h-40 w-40 flex-col items-center justify-center rounded-full border-8 ${colors.ring} bg-card shadow-lg`}>
@@ -83,6 +84,6 @@ export default function Result() {
           </p>
         </div>
       </div>
-    </div>
+    </AnimatedPage>
   );
 }
