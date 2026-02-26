@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { useEffect } from 'react';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoLeishCheck from '@/assets/logo-leishcheck.png';
 import AnimatedPage from '@/components/AnimatedPage';
@@ -56,6 +56,16 @@ export default function Home() {
           >
             <BookOpen className="mr-2 h-5 w-5" />
             📚 Material Educativo
+          </Button>
+
+          <Button
+            onClick={() => navigate('/historico')}
+            variant="outline"
+            className="h-14 w-full rounded-2xl text-lg font-semibold"
+            aria-label="Ver histórico de triagens"
+          >
+            <History className="mr-2 h-5 w-5" />
+            📋 Histórico
           </Button>
         </div>
 

@@ -12,6 +12,7 @@ import Questionnaire from "./pages/Questionnaire";
 import ImageUpload from "./pages/ImageUpload";
 import Result from "./pages/Result";
 import Education from "./pages/Education";
+import History from "./pages/History";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ function AnimatedRoutes() {
         <Route path="/imagem" element={<ImageUpload />} />
         <Route path="/resultado" element={<Result />} />
         <Route path="/educacao" element={<Education />} />
+        <Route path="/historico" element={<History />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
