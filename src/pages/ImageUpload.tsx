@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
-import { Camera, Image, SkipForward } from 'lucide-react';
+import { Camera, Image, SkipForward, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AnimatedPage from '@/components/AnimatedPage';
 
@@ -50,11 +50,21 @@ export default function ImageUpload() {
   return (
     <AnimatedPage className="flex min-h-screen flex-col items-center px-4 py-8">
       <div className="w-full max-w-md flex flex-col gap-6">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-muted"
+            aria-label="Voltar"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className="text-2xl font-bold text-foreground">Foto da Lesão</h1>
+        </div>
+
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
             <Camera className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">Foto da Lesão</h1>
           <p className="text-center text-sm text-muted-foreground">
             Se possível, tire uma foto da ferida para melhor orientação. Este passo é opcional.
           </p>
