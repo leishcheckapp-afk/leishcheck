@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDown, MessageSquare, Globe, Wifi, WifiOff, Menu, X, ClipboardList, Camera, BarChart3, Quote } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ScrollAnimationWrapper, StaggerWrapper } from '@/components/ScrollAnimationWrapper';
+import { ModelStatus } from '@/components/ModelStatus';
 import heroImage from '@/assets/hero-landing.jpg';
 
 /* ─── Counter Hook ─── */
@@ -174,6 +175,7 @@ export default function LandingPage() {
 
           {/* Desktop links */}
           <div className="hidden items-center gap-8 md:flex">
+            <ModelStatus />
             {navLinks.map((l) => (
               <button key={l.id} onClick={() => scrollTo(l.id)} className={`text-sm font-medium tracking-wide uppercase transition-colors hover:opacity-70 ${scrolled ? 'text-[#F5F2EC]/80' : 'text-white/80'}`}>
                 {l.label}

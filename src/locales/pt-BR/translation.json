@@ -86,7 +86,14 @@
     "learnMore": "Saiba mais",
     "downloadPDF": "Baixar PDF",
     "retry": "Refazer Triagem",
-    "disclaimerResult": "Apenas um profissional de saúde pode confirmar o diagnóstico."
+    "disclaimerResult": "Apenas um profissional de saúde pode confirmar o diagnóstico.",
+    "breakdown": {
+      "title": "Detalhamento da Análise",
+      "questionnaire": "Questionário Clínico",
+      "ai": "Análise de Imagem (IA)",
+      "combined": "Resultado Combinado",
+      "offline": "Análise realizada offline. Conecte-se à internet para análise completa com IA."
+    }
   },
   "history": {
     "title": "Histórico de Triagens",
@@ -132,10 +139,18 @@
   },
   "ai": {
     "analyzing": "Analisando imagem com IA...",
+    "analysisComplete": "Análise concluída com sucesso!",
     "analysisFailed": "Análise por IA indisponível. Resultado baseado apenas no questionário.",
+    "offlineMode": "Modo offline ativo. Resultado baseado apenas no questionário.",
     "cardTitle": "Análise por Inteligência Artificial",
     "confidence": "Confiança",
-    "disclaimer": "Análise assistida por IA — não substitui diagnóstico médico profissional."
+    "positive": "Características sugestivas de leishmaniose",
+    "negative": "Características não sugestivas de leishmaniose",
+    "disclaimer": "Análise assistida por IA — não substitui diagnóstico médico profissional.",
+    "analysis": {
+      "positive": "A análise da imagem identificou características que podem ser compatíveis com leishmaniose cutânea.",
+      "negative": "A análise da imagem não identificou características típicas de leishmaniose cutânea."
+    }
   },
   "audio": {
     "home": "Bem-vindo ao LeishCheck. Cuide da sua saúde. Simples, rápido e gratuito. Toque em Iniciar Triagem para começar.",

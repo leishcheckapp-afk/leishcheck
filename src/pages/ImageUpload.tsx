@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import AnimatedPage from '@/components/AnimatedPage';
 import { PageHeader } from '@/components/PageHeader';
 import { useTranslation } from 'react-i18next';
-import { analyzeImage } from '@/lib/analyzeImage';
+import { modelManager } from '@/lib/modelManager';
 import { toast } from 'sonner';
 
 export default function ImageUpload() {
@@ -32,15 +32,32 @@ export default function ImageUpload() {
   const handleUsePhoto = async () => {
     if (!preview) return;
     setAnalyzing(true);
+    
     try {
-      const aiResult = await analyzeImage(preview, answers, userData);
-      if (!aiResult && navigator.onLine) {
-        toast.info(t('ai.analysisFailed'));
-      }
-      calculateResult(aiResult ?? undefined);
-    } catch {
+      // Usar window.Image para evitar conflito com imports React
+      const img = new window.Image();
+      img.crossOrigin = 'anonymous';
+      
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = reject;
+        img.src = preview;
+      });
+
+      const aiPrediction = await modelManager.predict(img);
+      console.log('🤖 AI Prediction:', aiPrediction);
+      
+      calculateResult(aiPrediction);
+      toast.success(t('ai.analysisComplete'));
+    } catch (error) {
+      console.error('AI Analysis failed:', error);
       calculateResult();
-      toast.info(t('ai.analysisFailed'));
+      
+      if (navigator.onLine) {
+        toast.error(t('ai.analysisFailed'));
+      } else {
+        toast.info(t('ai.offlineMode'));
+      }
     } finally {
       setAnalyzing(false);
       navigate('/resultado');

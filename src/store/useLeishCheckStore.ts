@@ -3,6 +3,9 @@ import { persist } from 'zustand/middleware';
 import { UserData, QuestionAnswer, RiskResult, RiskLevel, AIAnalysis } from '@/types/leishcheck';
 import { questions, MAX_SCORE } from '@/data/questions';
 import { saveSession } from '@/lib/db';
+import { CombinedRiskResult, calculateCombinedRisk } from '@/lib/combinedRisk';
+import { PredictionResult } from '@/lib/modelManager';
+import { saveDiagnosisLog } from '@/lib/syncManager';
 
 interface LeishCheckState {
   // Audio
@@ -36,49 +39,18 @@ interface LeishCheckState {
   setImage: (base64: string | null) => void;
 
   // Result
-  result: RiskResult | null;
-  calculateResult: (aiAnalysis?: AIAnalysis) => RiskResult;
+  result: CombinedRiskResult | null;
+  calculateResult: (aiPrediction?: PredictionResult) => CombinedRiskResult;
 
   // Reset
   resetTriagem: () => void;
 }
 
-function calculateRisk(answers: QuestionAnswer[], aiAnalysis?: AIAnalysis): RiskResult {
-  const score = answers.reduce((sum, a) => {
+function calculateQuestionnaireScore(answers: QuestionAnswer[]): number {
+  return answers.reduce((sum, a) => {
     if (a.answer) return sum + questions[a.questionIndex].weight;
     return sum;
   }, 0);
-
-  let percentage = Math.round((score / MAX_SCORE) * 100);
-
-  // Apply AI adjustment if available
-  if (aiAnalysis) {
-    percentage = Math.max(0, Math.min(100, percentage + aiAnalysis.riskAdjustment));
-  }
-
-  let level: RiskLevel;
-  let title: string;
-  let description: string;
-  let orientation: string;
-
-  if (percentage <= 30) {
-    level = 'low';
-    title = 'RISCO BAIXO';
-    description = 'Sinais pouco sugestivos de leishmaniose cutânea.';
-    orientation = 'Sinais pouco sugestivos. Monitorar. Procurar UBS se piorar.';
-  } else if (percentage <= 60) {
-    level = 'medium';
-    title = 'RISCO MODERADO';
-    description = 'Sinais moderados para leishmaniose cutânea.';
-    orientation = 'Sinais moderados. Recomendado consulta médica breve.';
-  } else {
-    level = 'high';
-    title = 'RISCO ELEVADO';
-    description = 'Sinais fortemente sugestivos de leishmaniose cutânea.';
-    orientation = 'Sinais fortemente sugestivos. Procure UBS urgentemente.';
-  }
-
-  return { score, percentage, level, title, description, orientation, aiAnalysis };
 }
 
 function applyDarkClass(dark: boolean) {
@@ -132,18 +104,19 @@ export const useLeishCheckStore = create<LeishCheckState>()(
       setImage: (base64) => set({ imageBase64: base64 }),
 
       result: null,
-      calculateResult: (aiAnalysis?: AIAnalysis) => {
+      calculateResult: (aiPrediction?: PredictionResult) => {
         const state = get();
-        const result = calculateRisk(state.answers, aiAnalysis);
+        const questionnaireScore = calculateQuestionnaireScore(state.answers);
+        const result = calculateCombinedRisk(
+          questionnaireScore,
+          aiPrediction || null,
+          !navigator.onLine,
+          aiPrediction ? localStorage.getItem('leishcheck-model-version') : null
+        );
         set({ result });
 
-        saveSession({
-          date: new Date().toISOString(),
-          userData: state.userData,
-          answers: state.answers,
-          result,
-          hasImage: !!state.imageBase64,
-        }).catch(console.error);
+        // Save to new diagnosis_logs table
+        saveDiagnosisLog(result, state.userData, state.answers).catch(console.error);
 
         return result;
       },

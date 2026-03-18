@@ -47,6 +47,19 @@ export default defineConfig(({ mode }) => ({
             handler: "CacheFirst",
             options: { cacheName: "google-fonts-woff2", expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 } },
           },
+          {
+            urlPattern: /.*\.supabase\.co\/storage\/v1\/object\/public\/leish-models\/.*/i,
+            handler: "CacheFirst",
+            options: { 
+              cacheName: "leish-ai-models", 
+              expiration: { maxEntries: 5, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheKeyWillBeUsed: async ({ request }) => {
+                // Cache by model version in URL
+                const url = new URL(request.url);
+                return `${url.origin}${url.pathname}`;
+              }
+            },
+          },
         ],
       },
     }),

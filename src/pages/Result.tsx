@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useLeishCheckStore } from '@/store/useLeishCheckStore';
 import { speakText } from '@/components/AudioToggle';
 import { Button } from '@/components/ui/button';
-import { MapPin, BookOpen, RotateCcw, AlertTriangle, FileDown, ShieldCheck, Sparkles, Eye } from 'lucide-react';
+import { MapPin, BookOpen, RotateCcw, AlertTriangle, FileDown, ShieldCheck, Sparkles, Eye, Brain, FileText } from 'lucide-react';
 import AnimatedPage from '@/components/AnimatedPage';
 import { motion } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { getRiskColor, getRiskIcon } from '@/lib/combinedRisk';
 
 const CIRCLE_RADIUS = 70;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
@@ -23,16 +24,16 @@ export default function Result() {
 
   useEffect(() => {
     if (result && audioEnabled) {
-      const titleKey = `result.${result.level}`;
-      const descKey = `result.${result.level}Desc`;
+      const titleKey = `result.${result.combinedRiskLevel}`;
+      const descKey = `result.${result.combinedRiskLevel}Desc`;
       speakText(`${t(titleKey)}. ${t(descKey)}`);
     }
   }, [result, audioEnabled, t]);
 
   useEffect(() => {
     if (!result) return;
-    if (prefersReduced) { setDisplayPercent(result.percentage); return; }
-    const target = result.percentage;
+    if (prefersReduced) { setDisplayPercent(result.combinedPercentage); return; }
+    const target = result.combinedPercentage;
     const duration = 1200;
     const startTime = performance.now();
     const animate = (now: number) => {
@@ -51,8 +52,8 @@ export default function Result() {
     medium: { stroke: 'hsl(42 96% 56%)', text: 'text-warning', glow: '0 0 30px hsl(42 96% 56% / 0.35)' },
     high: { stroke: 'hsl(0 72% 50%)', text: 'text-danger', glow: '0 0 30px hsl(0 72% 50% / 0.35)' },
   };
-  const colors = colorMap[result.level];
-  const strokeDashoffset = CIRCUMFERENCE - (result.percentage / 100) * CIRCUMFERENCE;
+  const colors = colorMap[result.combinedRiskLevel];
+  const strokeDashoffset = CIRCUMFERENCE - (result.combinedPercentage / 100) * CIRCUMFERENCE;
   const dur = prefersReduced ? 0 : 1.2;
 
   const stagger = (delay: number) => prefersReduced ? {} : { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } };
@@ -60,7 +61,7 @@ export default function Result() {
   return (
     <AnimatedPage className="gradient-bg flex min-h-screen flex-col items-center px-4 pt-8 pb-24">
       <div className="w-full max-w-md flex flex-col items-center gap-6">
-        {result.level === 'high' && (
+        {result.combinedRiskLevel === 'high' && (
           <motion.div className="w-full glass-card border-2 border-danger/50 p-5 text-center animate-pulse-ring" {...stagger(0)}>
             <div className="flex items-center justify-center gap-2 mb-2"><AlertTriangle className="h-6 w-6 text-danger" /><span className="text-lg font-bold text-danger">{t('result.attention')}</span></div>
             <p className="text-sm font-medium leading-relaxed text-danger">{t('result.emergencyMessage')}</p>
@@ -79,17 +80,84 @@ export default function Result() {
         </motion.div>
 
         <motion.h1 className={`text-2xl font-bold ${colors.text}`} {...stagger(0.4)}>
-          {t(`result.${result.level}`)}
+          {getRiskIcon(result.combinedRiskLevel)} {t(`result.${result.combinedRiskLevel}`)}
         </motion.h1>
 
         <motion.div className="glass-card p-6 text-center w-full" {...stagger(0.6)}>
-          <p className="text-base leading-relaxed text-card-foreground">{t(`result.${result.level}Desc`)}</p>
+          <p className="text-base leading-relaxed text-card-foreground">{t(`result.${result.combinedRiskLevel}Desc`)}</p>
           <hr className="my-4 border-border/30" />
-          <p className="text-sm leading-relaxed text-muted-foreground">{t(`result.${result.level}Orientation`)}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{t(`result.${result.combinedRiskLevel}Orientation`)}</p>
         </motion.div>
 
-        {/* AI Analysis Card */}
-        {result.aiAnalysis && (
+        {/* Breakdown Card */}
+        <motion.div className="glass-card p-6 w-full" {...stagger(0.65)}>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+              <Brain className="h-4 w-4 text-primary" />
+            </div>
+            <h3 className="text-sm font-bold text-card-foreground">{t('result.breakdown.title')}</h3>
+          </div>
+
+          <div className="space-y-3">
+            {/* Questionnaire Score */}
+            <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30">
+              <div className="flex items-center gap-2">
+                <FileText className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">{t('result.breakdown.questionnaire')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold">{result.questionnairePercentage}%</span>
+                <Badge variant="secondary" className={getRiskColor(result.questionnaireRiskLevel)}>
+                  {t(`result.${result.questionnaireRiskLevel}`)}
+                </Badge>
+              </div>
+            </div>
+
+            {/* AI Analysis */}
+            {result.hasImage && result.aiPrediction && (
+              <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">{t('result.breakdown.ai')}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold">
+                    {Math.round(result.aiPrediction.confidence * 100)}%
+                  </span>
+                  <Badge variant="secondary" className={
+                    result.aiPrediction.label === 'leishmaniose' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                  }>
+                    {result.aiPrediction.label === 'leishmaniose' ? t('ai.positive') : t('ai.negative')}
+                  </Badge>
+                </div>
+              </div>
+            )}
+
+            {/* Combined Result */}
+            <div className="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/20">
+              <div className="flex items-center gap-2">
+                <Brain className="h-4 w-4 text-primary" />
+                <span className="text-sm font-bold text-primary">{t('result.breakdown.combined')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-primary">{result.combinedPercentage}%</span>
+                <Badge className={getRiskColor(result.combinedRiskLevel)}>
+                  {t(`result.${result.combinedRiskLevel}`)}
+                </Badge>
+              </div>
+            </div>
+          </div>
+
+          {result.wasOffline && (
+            <div className="flex items-start gap-2 rounded-xl bg-yellow-50 dark:bg-yellow-900/20 p-3 mt-4">
+              <AlertTriangle className="h-4 w-4 text-yellow-600 shrink-0 mt-0.5" />
+              <p className="text-xs text-yellow-700 dark:text-yellow-300">{t('result.breakdown.offline')}</p>
+            </div>
+          )}
+        </motion.div>
+
+        {/* AI Analysis Card - Legacy format for compatibility */}
+        {result.aiPrediction && (
           <motion.div className="glass-card p-6 w-full" {...stagger(0.7)}>
             <div className="flex items-center gap-2 mb-4">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
@@ -97,24 +165,16 @@ export default function Result() {
               </div>
               <h3 className="text-sm font-bold text-card-foreground">{t('ai.cardTitle')}</h3>
               <Badge variant="secondary" className="ml-auto text-xs">
-                {t('ai.confidence')}: {result.aiAnalysis.confidence}%
+                {t('ai.confidence')}: {Math.round(result.aiPrediction.confidence * 100)}%
               </Badge>
             </div>
 
             <p className="text-sm leading-relaxed text-muted-foreground mb-3">
-              {result.aiAnalysis.analysis}
+              {result.aiPrediction.label === 'leishmaniose' 
+                ? t('ai.analysis.positive') 
+                : t('ai.analysis.negative')
+              }
             </p>
-
-            {result.aiAnalysis.characteristics.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4">
-                {result.aiAnalysis.characteristics.map((char, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                    <Eye className="h-3 w-3" />
-                    {char}
-                  </span>
-                ))}
-              </div>
-            )}
 
             <div className="flex items-start gap-2 rounded-xl bg-muted/50 p-3">
               <ShieldCheck className="h-4 w-4 text-warning shrink-0 mt-0.5" />
